@@ -24,8 +24,7 @@ public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
       l1=reverseLL(l1);
       l2=reverseLL(l2);
-      ListNode*dummy=new ListNode();
-      ListNode*curr=dummy;
+      ListNode*head=NULL;
       int sum=0,carry=0;
       while(l1 || l2 || carry!=0)
       {
@@ -40,11 +39,18 @@ public:
             l2=l2->next;
          }
          ListNode* temp=new ListNode(sum%10);
-         curr->next=temp;
-         curr=temp;
+         if(!head)
+         {
+            head=temp;
+         }
+         else
+         {
+            temp->next=head;
+            head=temp;
+         }
          carry=sum/10;
          sum=carry;
       }
-      return reverseLL(dummy->next);
+      return head;
     }
 };
