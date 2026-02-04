@@ -10,31 +10,31 @@
  */
 class Solution {
 public:
-   ListNode*reverse(ListNode* head)
-   {
-       if(!head || !head->next)
-       {
-           return head;
-       }
-       ListNode*revHead=reverse(head->next);
-       head->next->next=head;
-       head->next=NULL;
-       return revHead;
-   }
+    ListNode*reverseLL(ListNode*head)
+    {
+        if(!head || !head->next)
+        {
+            return head;
+        }
+        ListNode*revHead=reverseLL(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return revHead;
+    }
     int pairSum(ListNode* head) {
-        int maxSum=0;
-        ListNode*slow=head,*fast=head;
-        while(fast->next->next)
+        ListNode*slow=head,*fast=slow;
+        while(fast->next && fast->next->next)
         {
             slow=slow->next;
             fast=fast->next->next;
         }
-        ListNode*ptr=reverse(slow->next);
+        ListNode*ptr=reverseLL(slow->next);
+        int maxSum=0;
         while(ptr)
         {
-            maxSum=max(maxSum,ptr->val+head->val);
-            head=head->next;
-            ptr=ptr->next;
+           maxSum=max(maxSum,ptr->val+head->val);
+           head=head->next;
+           ptr=ptr->next;
         }
         return maxSum;
     }
