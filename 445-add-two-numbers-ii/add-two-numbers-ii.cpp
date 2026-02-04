@@ -12,22 +12,23 @@ class Solution {
 public:
    ListNode* reverseLL(ListNode*head)
    {
-      if(!head || !head->next)
+      ListNode*prev=NULL,*curr=head;
+      while(curr)
       {
-         return head;
+        ListNode*forward=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=forward;
       }
-      ListNode* revHead=reverseLL(head->next);
-      head->next->next=head;
-      head->next=NULL;
-      return revHead;
+      return prev;
    }
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
         l1=reverseLL(l1);
         l2=reverseLL(l2);
-        ListNode*ans=new ListNode(0);
+        ListNode*ans=new ListNode();
         int sum=0,carry=0;
-         while(l1 || l2)
-         {
+        while(l1 || l2)
+        {
             if(l1)
             {
                 sum+=l1->val;
@@ -38,13 +39,13 @@ public:
                 sum+=l2->val;
                 l2=l2->next;
             }
-            ans->val=(sum%10);
+            ans->val=sum%10;
             carry=sum/10;
+            sum=carry;
             ListNode* NewNode=new ListNode(carry);
             NewNode->next=ans;
             ans=NewNode;
-            sum=carry;
-         }
-         return carry==0?ans->next:ans;
+        }
+        return ans->val==0?ans->next:ans;
     }
 };
