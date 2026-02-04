@@ -10,17 +10,16 @@
  */
 class Solution {
 public:
-   ListNode*reverse(ListNode*curr)
+   ListNode*reverse(ListNode* head)
    {
-      ListNode*prev=NULL;
-      while(curr)
-      {
-         ListNode*forward=curr->next;
-          curr->next=prev;
-          prev=curr;
-          curr=forward;
-      }
-      return prev;
+       if(!head || !head->next)
+       {
+           return head;
+       }
+       ListNode*revHead=reverse(head->next);
+       head->next->next=head;
+       head->next=NULL;
+       return revHead;
    }
     int pairSum(ListNode* head) {
         int maxSum=0;
