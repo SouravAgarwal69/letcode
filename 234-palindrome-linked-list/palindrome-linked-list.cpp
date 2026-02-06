@@ -10,29 +10,23 @@
  */
 class Solution {
 public:
+   ListNode*curr;
+    bool recursion(ListNode*head)
+    {
+        if(!head)
+        {
+            return true;
+        }
+        bool ans=recursion(head->next);
+        if(head->val!=curr->val)
+        {
+            return false;
+        }
+        curr=curr->next;
+        return ans;
+    }
     bool isPalindrome(ListNode* head) {
-        ListNode*slow=head,*fast=head,*prev=NULL;
-        while(fast && fast->next)
-        {
-             fast=fast->next->next;
-            ListNode*forward=slow->next;
-            slow->next=prev;
-            prev=slow;
-            slow=forward;
-        }
-        if(fast)
-        {
-            slow=slow->next;
-        }
-        while(slow && prev)
-        {
-            if(slow->val!=prev->val)
-            {
-                return false;
-            }
-            slow=slow->next;
-            prev=prev->next;
-        }
-        return true;
+        curr=head;
+        return recursion(head);
     }
 };
