@@ -34,15 +34,13 @@ public:
             st.push(temp);
             temp=temp->next;
         }
-        ListNode*Dummy=new ListNode(0);
-        temp=Dummy;
+        ListNode*prev=NULL;
         while(!st.empty())
         {
-            temp->next=st.top();
-            st.pop();
-            temp=temp->next;
+            st.top()->next=prev;
+            prev=st.top();
+             st.pop();
         }
-        temp->next=NULL;
-        return reverse(Dummy->next);
+        return prev;
     }
 };
