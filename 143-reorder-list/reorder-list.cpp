@@ -10,24 +10,31 @@
  */
 class Solution {
 public:
-    void reorderList(ListNode* head) {
-        stack<ListNode*>st;
-        ListNode*temp=head;
-        while(temp)
+    ListNode*front;
+    void recursion(ListNode*head)
+    {
+        if(!head)
         {
-            st.push(temp);
-            temp=temp->next;
+            return;
         }
-       int k=st.size()/2;
-       temp=head;
-       while(k--)
-       {
-          ListNode*ptr=temp->next;
-          temp->next=st.top();
-          st.top()->next=ptr;
-          st.pop();
-          temp=ptr;
-       }
-       temp->next=NULL;
+        recursion(head->next);
+         if(!front)
+        {
+            return;
+        }
+        if(front==head || front->next==head)
+        {
+            head->next=NULL;
+            front=NULL;
+            return;
+        }
+        ListNode*temp=front->next;
+        front->next=head;
+        head->next=temp;
+        front=temp;
+    }
+    void reorderList(ListNode* head) {
+        front=head;
+        recursion(head);
     }
 };
