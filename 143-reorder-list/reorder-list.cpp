@@ -10,34 +10,24 @@
  */
 class Solution {
 public:
-    ListNode*reverse(ListNode*head)
-    {
-        if(!head || !head->next)
-        {
-            return head;
-        }
-        ListNode*revHead=reverse(head->next);
-        head->next->next=head;
-        head->next=NULL;
-        return revHead;
-    }
     void reorderList(ListNode* head) {
-        ListNode*slow=head,*fast=head;
-        while(fast && fast->next)
+        stack<ListNode*>st;
+        ListNode*temp=head;
+        while(temp)
         {
-            slow=slow->next;
-            fast=fast->next->next;
+            st.push(temp);
+            temp=temp->next;
         }
-       ListNode* revHead= reverse(slow->next);
-       slow->next=NULL;
-        while(revHead)
+        int k=st.size()/2;
+        ListNode*curr=head;
+        while(k--)
         {
-             ListNode*temp=head->next;
-             ListNode*revtemp=revHead->next;
-             head->next=revHead;
-             revHead->next=temp;
-             head=temp;
-             revHead=revtemp;
+            ListNode*temp=curr->next;
+            curr->next=st.top();
+            st.top()->next=temp;
+            curr=temp;
+            st.pop();
         }
+        curr->next=NULL;
     }
 };
