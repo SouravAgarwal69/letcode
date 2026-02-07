@@ -10,31 +10,34 @@
  */
 class Solution {
 public:
-    ListNode*front;
-    void recursion(ListNode*head)
+    ListNode*reverse(ListNode*head)
     {
-        if(!head)
+        if(!head || !head->next)
         {
-            return;
+            return head;
         }
-        recursion(head->next);
-         if(!front)
-        {
-            return;
-        }
-        if(front==head || front->next==head)
-        {
-            head->next=NULL;
-            front=NULL;
-            return;
-        }
-        ListNode*temp=front->next;
-        front->next=head;
-        head->next=temp;
-        front=temp;
+        ListNode*revHead=reverse(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return revHead;
     }
     void reorderList(ListNode* head) {
-        front=head;
-        recursion(head);
+        ListNode*slow=head,*fast=head;
+        while(fast && fast->next)
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+       ListNode* revHead= reverse(slow->next);
+       slow->next=NULL;
+        while(revHead)
+        {
+             ListNode*temp=head->next;
+             ListNode*revtemp=revHead->next;
+             head->next=revHead;
+             revHead->next=temp;
+             head=temp;
+             revHead=revtemp;
+        }
     }
 };
