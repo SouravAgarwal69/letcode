@@ -10,17 +10,33 @@
  */
 class Solution {
 public:
+    ListNode*reverse(ListNode*head)
+    {
+        ListNode*prev=NULL;
+        ListNode*curr=head;
+        while(curr)
+        {
+            ListNode*forward=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forward;
+        }
+        return prev;
+    }
     ListNode* removeNodes(ListNode* head) {
-        if(!head || !head->next)
+        ListNode*revHead=reverse(head);
+        ListNode*prev=revHead;
+        ListNode*curr=prev->next;
+        while(curr)
         {
-            return head;
+            if(prev->val<=curr->val)
+            {
+                prev->next=curr;
+                prev=curr;
+            }
+            curr=curr->next;
         }
-        ListNode*Forward=removeNodes(head->next);
-        if(Forward->val<=head->val)
-        {
-            head->next=Forward;
-            Forward=head;
-        }
-        return Forward;
+        prev->next=NULL;
+        return reverse(revHead);
     }
 };
