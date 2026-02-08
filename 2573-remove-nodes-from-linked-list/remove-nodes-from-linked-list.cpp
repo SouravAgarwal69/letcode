@@ -10,24 +10,17 @@
  */
 class Solution {
 public:
-    ListNode*curr=NULL;
-    int max=INT_MIN;
-    void reverse(ListNode*head)
-    {
-        if(!head)
-        {
-            return ;
-        }
-        reverse(head->next);
-        if(max<=head->val)
-        {
-        head->next=curr;
-        curr=head;
-        max=head->val;
-        }
-    }
     ListNode* removeNodes(ListNode* head) {
-        reverse(head);
-        return curr;
+        if(!head || !head->next)
+        {
+            return head;
+        }
+        ListNode*Forward=removeNodes(head->next);
+        if(Forward->val<=head->val)
+        {
+            head->next=Forward;
+            Forward=head;
+        }
+        return Forward;
     }
 };
