@@ -11,34 +11,32 @@
 class Solution {
 public:
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
-        int firstCritical=-1,prevCritical=-1,critical=0;
-        int minimum=INT_MAX;
+        vector<int>ans;
         ListNode*prev=head,*curr=head->next;
-        int pos=1;
+        int pos=1,firstCritical=0,prevCritical=0,minimum=INT_MAX;
         while(curr->next)
         {
-            if((curr->val > prev->val && curr->val > curr->next->val) ||(curr->val < prev->val && curr->val < curr->next->val))
+            if((curr->val > prev->val && curr->val > curr->next->val) || (curr->val < prev->val && curr->val < curr->next->val))
             {
-                    if(firstCritical==-1)
-                    {
-                        firstCritical=pos;
-                        prevCritical=pos;
-                    }
-                    else
-                    {
-                        minimum=min(minimum,pos-prevCritical);
-                        prevCritical=pos;
-                    }  
-                    critical++;
+                if(firstCritical==0)
+                {
+                    firstCritical=pos;
+                }
+                else
+                {
+                    minimum=min(minimum,pos-prevCritical);
+                }
+                  prevCritical=pos;
             }
+            pos++;
             prev=curr;
             curr=curr->next;
-            pos++;
         }
-        if(critical<2)
+        if(minimum==INT_MAX)
         {
             return {-1,-1};
         }
-        return {minimum,prevCritical-firstCritical};
+        return{minimum,prevCritical-firstCritical};
+
     }
 };
