@@ -10,36 +10,25 @@
  */
 class Solution {
 public:
-    ListNode*reverse(ListNode*head)
+    int recursion(ListNode*head)
     {
-        ListNode*prev=NULL,*curr=head;
-        while(curr)
+        if(!head)
         {
-            ListNode*forward=curr->next;
-            curr->next=prev;
-            prev=curr;
-            curr=forward;
+            return 0;
         }
-        return prev;
+        int carry=recursion(head->next);
+        int value=carry+head->val*2;
+        head->val=value%10;
+        return value/10;
     }
     ListNode* doubleIt(ListNode* head) {
-        ListNode*revHead=reverse(head),*prev=NULL;
-        ListNode*temp=revHead;
-        int value=0,carry=0;
-        while(temp)
-        {
-             value=value+(temp->val*2);
-             carry=value/10;
-             temp->val=value%10;
-             value=carry;
-             prev=temp;
-             temp=temp->next;
-        }
-        if(carry!=0)
-        {
-            ListNode*ptr=new ListNode(carry);
-            prev->next=ptr;
-        }
-        return reverse(revHead);
+        int carry=recursion(head);
+       if(carry!=0)
+       {
+          ListNode*temp=new ListNode(carry);
+          temp->next=head;
+          head=temp;
+       }
+       return head;
     }
 };
