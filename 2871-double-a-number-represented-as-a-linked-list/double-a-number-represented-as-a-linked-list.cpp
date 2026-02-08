@@ -10,30 +10,31 @@
  */
 class Solution {
 public:
-    int value=0,carry=0;
-    ListNode*prev=NULL;
-   void recursion(ListNode*head)
-   {
-        if(!head)
-        {
-            return;
-        }
-        recursion(head->next);
-         value+=head->val*2;
-        carry=value/10;
-        ListNode*temp=new ListNode(value%10);
-        temp->next=prev;
-        prev=temp;
-        value=carry;
-   }
     ListNode* doubleIt(ListNode* head) {
-     recursion(head);
-    if(carry!=0)
-    {
-        ListNode*temp=new ListNode(carry);
-        temp->next=prev;
-        prev=temp;
-    }
-    return prev;
+        stack<ListNode*>st;
+        while(head)
+        {
+            st.push(head);
+            head=head->next;
+        }
+        int value=0,carry=0;
+        ListNode*prev=NULL;
+        while(!st.empty())
+        {
+             value+=st.top()->val*2;
+             st.pop();
+             carry=value/10;
+             ListNode*temp=new ListNode(value%10);
+             temp->next=prev;
+             prev=temp;
+             value=carry;
+        }
+        if(carry!=0)
+        {
+            ListNode*temp=new ListNode(carry);
+            temp->next=prev;
+            prev=temp;
+        }
+        return prev;
     }
 };
