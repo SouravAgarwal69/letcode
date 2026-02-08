@@ -10,25 +10,29 @@
  */
 class Solution {
 public:
-    int recursion(ListNode*head)
-    {
-        if(!head)
-        {
-            return 0;
-        }
-        int carry=recursion(head->next);
-        int value=carry+head->val*2;
-        head->val=value%10;
-        return value/10;
-    }
     ListNode* doubleIt(ListNode* head) {
-        int carry=recursion(head);
-       if(carry!=0)
-       {
-          ListNode*temp=new ListNode(carry);
-          temp->next=head;
-          head=temp;
-       }
-       return head;
+        ListNode*prev=NULL,*curr=head;
+        int result=0,carry=0;
+        while(curr)
+        {
+           result=curr->val*2;
+           carry=result/10;
+           if(carry!=0)
+           {
+              if(!prev)
+              {
+                head=new ListNode(carry);
+                head->next=curr;
+              }
+              else
+              {
+                prev->val=prev->val+carry;
+              }
+           }
+           curr->val=result%10;
+           prev=curr;
+           curr=curr->next;
+        }
+         return head;
     }
 };
