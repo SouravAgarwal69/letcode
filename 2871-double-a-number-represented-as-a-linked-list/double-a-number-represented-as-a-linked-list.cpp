@@ -10,31 +10,36 @@
  */
 class Solution {
 public:
-    ListNode* doubleIt(ListNode* head) {
-        stack<ListNode*>st;
-        while(head)
+    ListNode*reverse(ListNode*head)
+    {
+        ListNode*prev=NULL,*curr=head;
+        while(curr)
         {
-            st.push(head);
-            head=head->next;
+            ListNode*forward=curr->next;
+            curr->next=prev;
+            prev=curr;
+            curr=forward;
         }
+        return prev;
+    }
+    ListNode* doubleIt(ListNode* head) {
+        ListNode*revHead=reverse(head),*prev=NULL;
+        ListNode*temp=revHead;
         int value=0,carry=0;
-        ListNode*prev=NULL;
-        while(!st.empty())
+        while(temp)
         {
-             value+=st.top()->val*2;
-             st.pop();
+             value=value+(temp->val*2);
              carry=value/10;
-             ListNode*temp=new ListNode(value%10);
-             temp->next=prev;
-             prev=temp;
+             temp->val=value%10;
              value=carry;
+             prev=temp;
+             temp=temp->next;
         }
         if(carry!=0)
         {
-            ListNode*temp=new ListNode(carry);
-            temp->next=prev;
-            prev=temp;
+            ListNode*ptr=new ListNode(carry);
+            prev->next=ptr;
         }
-        return prev;
+        return reverse(revHead);
     }
 };
