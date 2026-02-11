@@ -2,20 +2,20 @@ class Solution {
 public:
     vector<string> buildArray(vector<int>& target, int n) {
         vector<string>ans;
-         int j=0,i=1;
-         while(i<=n && j<target.size())
-         {
+        int i=0,j=1;
+        while(i<target.size() && j<=n)
+        {
             ans.push_back("Push");
-            if(target[j]!=i)
+            if(target[i]==j)
             {
-                ans.push_back("Pop");
+                i++;
             }
             else
             {
-                j++;
+                ans.push_back("Pop");
             }
-            i++;
-         }
-         return ans;
+            j++;
+        }
+        return ans;
     }
 };
