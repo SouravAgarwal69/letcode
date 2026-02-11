@@ -2,42 +2,32 @@ class Solution {
 public:
     string minRemoveToMakeValid(string s) {
         string ans;
-        int open=0;
+        vector<int>invalidIndex;
         for(int i=0;i<s.size();i++)
         {
-            if(s[i]=='(')
-            {
-                open++;
-            }
-            else if(s[i]==')' && open==0)
-            {
-                 continue;
-            }
-            else if(s[i]==')' && open>0)
-            {
-                open--;
-            }
-           ans.push_back(s[i]);
-        }
-        string result;
-        int close=0;
-        for(int i=ans.size()-1;i>=0;i--)
-        {
-            if(ans[i]==')')
-            {
-                close++;
-            }
-            else if(ans[i]=='(' &&  close>0 )
-            {
-                close--;
-            }
-            else if(ans[i]=='(' && close==0)
+            if(s[i]>='a' && s[i]<='z')
             {
                 continue;
             }
-            result.push_back(ans[i]);
+            else if(!invalidIndex.empty() && s[invalidIndex.back()]=='(' && s[i]==')')
+            {
+                invalidIndex.pop_back();
+            }
+           else
+           {
+              invalidIndex.push_back(i);
+           }
         }
-        reverse(result.begin(),result.end());
-        return result;
+        int k=0;
+        for(int i=0;i<s.size();i++)
+        {
+            if(k<invalidIndex.size() && i==invalidIndex[k])
+            {
+                k++;
+                continue;
+            }
+            ans.push_back(s[i]);
+        }
+        return ans;
     }
 };
