@@ -14,13 +14,17 @@ public:
             index.push_back(i);
           }
        } 
-       int start=0;
-      for(int i=0;i<index.size();i++)
-      {
-       ans+=s.substr(start,index[i]-start);
-        start=index[i]+1;
+       int k=0;
+      for(int i=0;i<s.size();i++)
+      { 
+         if( k<index.size() && i==index[k])
+         {
+            k++;
+            continue;
+         }
+         ans.push_back(s[i]);
+         
       }
-      ans+=s.substr(start);
        return ans;
     }
 };
