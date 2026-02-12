@@ -1,76 +1,76 @@
 class Solution {
 public:
-    void findNSE(vector<int>&NSE,stack<int>st,vector<int>&arr)
+    void findNSE(vector<int>&NSE,stack<int>st,vector<int>&height)
     {
-        for(int i=arr.size()-1;i>=0;i--)
-        {
-            while(!st.empty() && arr[i]<=arr[st.top()])
+            for(int i=height.size()-1;i>=0;i--)
             {
-                st.pop();
+                while(!st.empty() && height[i]<=height[st.top()])
+                {
+                    st.pop();
+                }
+                if(st.empty())
+                {
+                    NSE[i]=height.size();
+                }
+                else
+                {
+                    NSE[i]=st.top();
+                }
+                st.push(i);
             }
-            if(st.empty())
-            {
-                 NSE[i]=arr.size();
-            }
-            else
-            {
-                NSE[i]=st.top();
-            }
-            st.push(i);
-        }
     }
-    void findPSE(vector<int>&PSE,stack<int>st,vector<int>&arr)
+    void findPSE(vector<int>&PSE,stack<int>st,vector<int>&height)
     {
-        for(int i=0;i<arr.size();i++)
-        {
-            while(!st.empty() && arr[i]<=arr[st.top()])
-            {
-                st.pop();
-            }
-            if(st.empty())
-            {
-                PSE[i]=-1;
-            }
-            else
-            {
-                PSE[i]=st.top();
-            }
-            st.push(i);
-        }
+       for(int i=0;i<height.size();i++)
+       {
+         while(!st.empty() && height[i]<=height[st.top()])
+         {
+            st.pop();
+         }
+         if(st.empty())
+         {
+            PSE[i]=-1;
+         }
+         else
+         {
+            PSE[i]=st.top();
+         }
+         st.push(i);
+       }
     }
-    int find(vector<int>&arr)
+    int findMaxArea(vector<int>&height)
     {
-        vector<int>NSE(arr.size());
-        vector<int>PSE(arr.size());
-        stack<int>st;
         int maxArea=0;
-        findNSE(NSE,st,arr);
-        findPSE(PSE,st,arr);
-        for(int i=0;i<arr.size();i++)
+        vector<int>NSE(height.size());
+        vector<int>PSE(height.size());
+        stack<int>st;
+        findNSE(NSE,st,height);
+        findPSE(PSE,st,height);
+        for(int i=0;i<height.size();i++)
         {
-            int area=arr[i]*(NSE[i]-PSE[i]-1);
+            int area=height[i]*(NSE[i]-PSE[i]-1);
             maxArea=max(maxArea,area);
         }
         return maxArea;
     }
     int maximalRectangle(vector<vector<char>>& matrix) {
-        int maximum=0;
-        vector<int>heights(matrix[0].size());
+        int maxArea=0;
+        vector<int>height(matrix[0].size());
         for(int i=0;i<matrix.size();i++)
         {
             for(int j=0;j<matrix[i].size();j++)
             {
-                if(matrix[i][j]!='0')
+                if(matrix[i][j]=='0')
                 {
-                    heights[j]+=1;
+                    height[j]=0;
                 }
                 else
                 {
-                    heights[j]=0;
+                    height[j]+=1;
                 }
             }
-            maximum=max(maximum,find(heights));
+            maxArea=max(findMaxArea(height),maxArea);
         }
-        return maximum;
+        return maxArea;
     }
 };
