@@ -9,15 +9,15 @@ public:
             {
                 st.push(result.size());
             }
-            else if(s[i]==')')
+           else if(s[i]==')')
             {
                 reverse(result.begin()+st.top(),result.end());
                 st.pop();
             }
-           else
-           {
-              result.push_back(s[i]);
-           }
+            else
+            {
+                result.push_back(s[i]);
+            }
         }
         return result;
     }
