@@ -5,43 +5,45 @@ public:
         {
             return false;
         }
-        stack<int>open;
-        stack<int>flexible;
-        for(int i=0;i<s.size();i++)
-        {
+       int open=0,close=0;
+       for(int i=0;i<s.size();i++)
+       {
            if(locked[i]=='0')
            {
-               flexible.push(i);
+               open++;
            }
            else if(s[i]=='(')
            {
-            open.push(i);
+            open++;
            }
            else if(s[i]==')')
            {
-                if(!open.empty())
-                {
-                    open.pop();
-                }
-                else if(!flexible.empty())
-                {
-                    flexible.pop();
-                }
-                else
-                {
-                    return false;
-                }
+               open--;
+               if(open<0)
+               {
+                  return false;
+               }
            }
-        }
-        while(!open.empty() && !flexible.empty())
-        {
-            if(flexible.top()<open.top())
-            {
-                return false;
-            }
-            open.pop();
-            flexible.pop();
-        }
-        return open.empty();
+       } 
+       for(int i=s.size()-1;i>=0;i--)
+       {
+          if(locked[i]=='0')
+          {
+              close++;
+          }
+          else if(s[i]==')')
+          {
+             close++;
+          }
+          else if(s[i]=='(')
+          {
+             close--;
+             if(close<0)
+             {
+                 return false;
+             }
+          }
+       }
+       return true;
     }
 };
