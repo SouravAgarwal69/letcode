@@ -1,60 +1,60 @@
 class Solution {
 public:
-    char find(string res,char op)
+    char find(char op,string &result)
     {
-         if(op=='|')
-         {
-            for(int i=0;i<res.size();i++)
+        if(op=='&')
+        {
+            for(int i=0;i<result.size();i++)
             {
-                if(res[i]=='t')
-                {
-                    return 't';
-                }
-            }
-            return 'f';
-         }
-         else if(op=='&')
-         {
-            for(int i=0;i<res.size();i++)
-            {
-                if(res[i]=='f')
+                if(result[i]=='f')
                 {
                     return 'f';
                 }
             }
             return 't';
-         }
-         else
-         {
-            return res.back()=='t'?'f':'t';
-         }
+        }
+        if(op=='|')
+        {
+            for(int i=0;i<result.size();i++)
+            {
+                if(result[i]=='t')
+                {
+                    return 't';
+                }
+            }
+            return 'f';
+        }
+        else
+        {
+            if(result.back()=='t')
+            {
+                return 'f';
+            }
+            return 't';
+        }
     }
     bool parseBoolExpr(string expression) {
-        string temp;
+        string result;
         for(int i=0;i<expression.size();i++)
         {
-            if(expression[i]==',')
+            if(!result.empty() && expression[i]==')')
             {
-               continue;
-            }
-            else if(expression[i]==')')
-            {
-                string res;
-                while(temp.back()!='(')
+                string temp;
+                while(result.back()!='(')
                 {
-                    res.push_back(temp.back());
-                    temp.pop_back();
+                    temp.push_back(result.back());
+                    result.pop_back();
                 }
-                temp.pop_back();
-                char op=temp.back();
-                temp.pop_back();
-                temp.push_back(find(res,op));
+                result.pop_back();
+                char op=result.back();
+                result.pop_back();
+                result.push_back(find(op,temp));
             }
             else
             {
-                temp.push_back(expression[i]);
+                result.push_back(expression[i]);
             }
         }
-        return temp.back()=='t'?true:false;
+        return result.back()=='t'?true:false;
     }
 };
