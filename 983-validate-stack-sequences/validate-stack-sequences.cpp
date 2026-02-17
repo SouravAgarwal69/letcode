@@ -6,7 +6,7 @@ public:
         for(int i=0;i<pushed.size();i++)
         {
             st.push(pushed[i]);
-            while(!st.empty() && st.top()==popped[j])
+            while(!st.empty() && popped[j]==st.top())
             {
                 st.pop();
                 j++;
