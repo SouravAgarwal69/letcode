@@ -1,21 +1,20 @@
 class Solution {
 public:
     int earliestFullBloom(vector<int>& plantTime, vector<int>& growTime) {
-        int maxBloom=0;
-        vector<int>index(plantTime.size());
-        iota(index.begin(),index.end(),0);
-        sort(index.begin(),index.end(),[&](int i,int j)
+        vector<pair<int,int>>vp;
+        for(int i=0;i<plantTime.size();i++)
         {
-              return growTime[i]>growTime[j];
+            vp.push_back(make_pair(growTime[i],plantTime[i]));
         }
-        );
-        int plantDays=0;
-        for(int i=0;i<growTime.size();i++)
+        sort(vp.begin(),vp.end(),greater<pair<int,int>>());
+        int maxBloomDays=0,prevPlantTime=0;
+        for(int i=0;i<vp.size();i++)
         {
-            plantDays+=plantTime[index[i]];
-           int growDay=plantDays+growTime[index[i]];
-            maxBloom=max(maxBloom,growDay);
+            int CurrplantTime=prevPlantTime+vp[i].second;
+            int CurrgrowTime=vp[i].first;
+            maxBloomDays=max(maxBloomDays,CurrplantTime+CurrgrowTime);
+            prevPlantTime=CurrplantTime;
         }
-        return maxBloom;
+           return maxBloomDays;
     }
 };
