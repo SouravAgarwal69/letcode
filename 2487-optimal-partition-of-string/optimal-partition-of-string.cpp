@@ -1,16 +1,16 @@
 class Solution {
 public:
     int partitionString(string s) {
-        vector<bool>present(26,0);
-        int partition=0;
+        unordered_map<char,int>mp;
+        int startIndex=0,partition=0;
         for(int i=0;i<s.size();i++)
         {
-             if(present[s[i]-'a'])
-             {
-              fill(present.begin(), present.end(), false);
-                partition++;
-             }
-             present[s[i]-'a']=true;
+            if(mp.find(s[i])!=mp.end() && mp[s[i]]>=startIndex)
+            {
+                 partition++;
+                 startIndex=i;
+            }
+            mp[s[i]]=i;
         }
         return partition+1;
     }
