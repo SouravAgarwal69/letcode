@@ -8,6 +8,10 @@ public:
     }
     
     void push(int x) {
+        if(pushed.empty())
+        {
+            top=x;
+        }
         pushed.push(x);
     }
     
@@ -28,11 +32,7 @@ public:
     int peek() {
         if(poped.empty())
         {
-            while(!pushed.empty())
-            {
-                poped.push(pushed.top());
-                pushed.pop();
-            }
+           return top;
         }
         return poped.top();
     }
