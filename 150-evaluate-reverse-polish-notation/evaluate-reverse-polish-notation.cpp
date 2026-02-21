@@ -4,34 +4,32 @@ public:
         stack<int>st;
         for(int i=0;i<tokens.size();i++)
         {
-            if(tokens[i]=="+" || tokens[i]=="-" || tokens[i]=="*" || tokens[i]==
-            "/")
+            if(tokens[i]=="+" || tokens[i]=="-" || tokens[i]=="*" || tokens[i]=="/")
             {
-                int e2=st.top();
+                int second=st.top();
                 st.pop();
-                int e1=st.top();
+                int first=st.top();
                 st.pop();
                 if(tokens[i]=="+")
                 {
-                st.push(e1+e2);
+                    st.push(first+second);
                 }
-                 if(tokens[i]=="-")
+                else if(tokens[i]=="-")
                 {
-                st.push(e1-e2);
+                    st.push(first-second);
                 }
-                 if(tokens[i]=="*")
+                else if(tokens[i]=="*")
                 {
-                st.push(e1*e2);
+                    st.push(first*second);
                 }
-                 if(tokens[i]=="/")
+                else
                 {
-                st.push(e1/e2);
+                    st.push(first/second);
                 }
             }
             else
             {
-                int val=stoi(tokens[i]);
-                st.push(val);
+                st.push(stoi(tokens[i]));
             }
         }
         return st.top();
