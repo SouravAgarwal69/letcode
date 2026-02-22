@@ -7,23 +7,16 @@ public:
             freq[s[i]-'a']++;
         }
         unordered_set<int>st;
-        int cnt=0;
+        int deletion=0;
         for(int i=0;i<26;i++)
         {
-            while(freq[i]>0)
-            {
-            if(st.find(freq[i])==st.end())
-            {
-                st.insert(freq[i]);
-                break;
-            }
-            else
+            while(freq[i]>0 && st.find(freq[i])!=st.end())
             {
                 freq[i]--;
-                cnt++;
+                deletion++;
             }
-            }
+            st.insert(freq[i]);
         }
-        return cnt;
+        return deletion;
     }
 };
