@@ -2,7 +2,7 @@ class Solution {
 public:
     void findPermutation(vector<int>&nums,vector<vector<int>>&result,int index)
     {
-        if(index==nums.size())
+        if(index==nums.size()-1)
         {
             result.push_back(nums);
             return;
