@@ -1,17 +1,17 @@
 class Solution {
 public:
     int videoStitching(vector<vector<int>>& clips, int time) {
-        vector<int>timeRange(time+1);
+        vector<int>videoClips(time+1);
         for(int i=0;i<clips.size();i++)
         {
             int start=clips[i][0];
-            int end=min(time,clips[i][1]);
+            int end=clips[i][1];
             if(start<=time)
             {
-            timeRange[start]=max(timeRange[start],end);
+            videoClips[start]=max(videoClips[start],end);
             }
         }
-        int clip=0,currEnd=0,maxEnd=0;
+        int totalClips=0,currEnd=0,maxEnd=0;
         for(int i=0;i<time+1;i++)
         {
             if(i>maxEnd)
@@ -20,11 +20,11 @@ public:
             }
             if(i>currEnd)
             {
-                clip++;
                 currEnd=maxEnd;
+                totalClips++;
             }
-            maxEnd=max(maxEnd,timeRange[i]);
+            maxEnd=max(maxEnd,videoClips[i]);
         }
-        return clip;
+        return totalClips;
     }
 };
