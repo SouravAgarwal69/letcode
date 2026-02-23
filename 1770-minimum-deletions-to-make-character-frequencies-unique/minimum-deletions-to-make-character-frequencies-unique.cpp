@@ -10,11 +10,11 @@ public:
         int deletion=0;
         for(int i=24;i>=0;i--)
         {
-            if(freq[i]>=freq[i+1])
+            if(freq[i]>=freq[i+1] )
             {
-                int prev=freq[i];
-                freq[i]=max(0,freq[i+1]-1);
-                deletion+=prev-freq[i];
+              int prev=freq[i];
+              freq[i]=max(0,freq[i+1]-1);
+              deletion+=prev-freq[i];
             }
         }
         return deletion;
