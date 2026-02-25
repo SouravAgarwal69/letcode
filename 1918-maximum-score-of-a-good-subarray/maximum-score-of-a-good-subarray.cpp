@@ -1,24 +1,57 @@
 class Solution {
 public:
-    int maximumScore(vector<int>& nums, int k) {
-        int score=nums[k],minimum=nums[k];
-        int i=k,j=k;
-        while(i>0 || j<nums.size())
+    void findNSE(vector<int>&nums,vector<int>&NSE)
+    {
+        stack<int>st;
+        for(int i=nums.size()-1;i>=0;i--)
         {
-            int left=i-1>=0?nums[i-1]:0;
-            int right=j+1<nums.size()?nums[j+1]:0;
-             if(left>right)
-             {
-                minimum=min(minimum,left);
-                i--;
-                score=max(score,minimum*(j-i+1));
-             }
-             else
-             {
-                minimum=min(minimum,right);
-                j++;
-                score=max(score,minimum*(j-i+1));
-             }
+            while(!st.empty() && nums[st.top()]>=nums[i])
+            {
+                st.pop();
+            }
+            if(st.empty())
+            {
+                NSE[i]=nums.size();
+            }
+           else
+           {
+              NSE[i]=st.top();
+           }
+           st.push(i);
+        }
+    }
+    void findPSE(vector<int>&nums,vector<int>&PSE)
+    {
+         stack<int>st;
+         for(int i=0;i<nums.size();i++)
+         {
+            while(!st.empty() && nums[st.top()]>=nums[i])
+            {
+                st.pop();
+            }
+            if(st.empty())
+            {
+                PSE[i]=-1;
+            }
+            else
+            {
+                PSE[i]=st.top();
+            }
+            st.push(i);
+         }
+    }
+    int maximumScore(vector<int>& nums, int k) {
+        int score=0;
+        vector<int>NSE(nums.size());
+        vector<int>PSE(nums.size());
+        findNSE(nums,NSE);
+        findPSE(nums,PSE);
+        for(int i=0;i<nums.size();i++)
+        {
+            if(PSE[i]<k && NSE[i]>k)
+            {
+                score=max(score,(NSE[i]-PSE[i]-1)*nums[i]);
+            }
         }
         return score;
     }
