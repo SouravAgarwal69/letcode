@@ -1,14 +1,14 @@
 class Solution {
 public:
     int minTaps(int n, vector<int>& ranges) {
-        vector<int>WaterRange(ranges.size()+1);
+        vector<int>TimeRanges(ranges.size()+1);
         for(int i=0;i<ranges.size();i++)
         {
-            int s=max(0,i-ranges[i]);
-            int e=min(n,i+ranges[i]);
-            WaterRange[s]=max(WaterRange[s],e);
+            int start=max(0,i-ranges[i]);
+            int end=min(n,i+ranges[i]);
+            TimeRanges[start]=max(TimeRanges[start],end);
         }
-        int tapes=0,currEnd=0,maxEnd=0;
+        int currEnd=0,maxEnd=0,tapes=0;
         for(int i=0;i<n+1;i++)
         {
             if(i>maxEnd)
@@ -17,10 +17,10 @@ public:
             }
             if(i>currEnd)
             {
-                tapes++;
                 currEnd=maxEnd;
+                tapes++;
             }
-            maxEnd=max(maxEnd,WaterRange[i]);
+            maxEnd=max(maxEnd,TimeRanges[i]);
         }
         return tapes;
     }
