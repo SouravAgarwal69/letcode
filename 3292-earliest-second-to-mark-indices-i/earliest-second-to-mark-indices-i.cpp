@@ -1,6 +1,6 @@
 class Solution {
 public:
-    bool isPossible(int givenTime,vector<int>&nums,vector<int>&changeIndices)
+    bool isPossible(vector<int>&nums,vector<int>&changeIndices,int givenTime)
     {
         vector<int>lastVisited(nums.size(),-1);
         for(int i=0;i<givenTime;i++)
@@ -20,27 +20,33 @@ public:
             mp[lastVisited[i]]=i;
         }
         int usedTime=0;
-         for(auto it=mp.begin();it!=mp.end();it++)
-         {
-            int reqTime=it->first;
-            int index=it->second;
-            if(nums[index]+1+usedTime>reqTime)
+        for(auto it=mp.begin();it!=mp.end();it++)
+        {
+            int reqTime=nums[it->second];
+            if(reqTime+1+usedTime>it->first)
             {
                 return false;
             }
-            usedTime+=nums[index]+1;
-         }
-         return true;
+            usedTime+=reqTime+1;
+        }
+        return true;
     }
     int earliestSecondToMarkIndices(vector<int>& nums, vector<int>& changeIndices) {
-        int earliestTime=0;
-        for(int time=1;time<=changeIndices.size();time++)
+        int minTime=-1;
+        int s=1,e=changeIndices.size();
+        while(s<=e)
         {
-            if(isPossible(time,nums,changeIndices))
+            int mid=s+(e-s)/2;
+            if(isPossible(nums,changeIndices,mid))
             {
-                return time;
+                minTime=mid;
+                e=mid-1;
+            }
+            else
+            {
+                s=mid+1;
             }
         }
-        return -1;
+        return minTime;
     }
 };
