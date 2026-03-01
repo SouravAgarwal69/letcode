@@ -14,6 +14,25 @@ public:
                 return false;
             }
         }
+        vector<pair<int,int>>vp(lastVisited.size());
+        for(int i=0;i<lastVisited.size();i++)
+        {
+            vp[i].first=lastVisited[i];
+            vp[i].second=i;
+        }
+        sort(vp.begin(),vp.end());
+        int usedTime=0;
+        for(int i=0;i<vp.size();i++)
+        {
+            int avlTime=vp[i].first;
+            int index=vp[i].second;
+            if(usedTime+nums[index]+1>avlTime)
+            {
+                return false;
+            }
+            usedTime+=nums[index]+1;
+        }
+        /*
         map<int,int>mp;
         for(int i=0;i<lastVisited.size();i++)
         {
@@ -28,7 +47,7 @@ public:
                 return false;
             }
             usedTime+=reqTime+1;
-        }
+        }*/
         return true;
     }
     int earliestSecondToMarkIndices(vector<int>& nums, vector<int>& changeIndices) {
