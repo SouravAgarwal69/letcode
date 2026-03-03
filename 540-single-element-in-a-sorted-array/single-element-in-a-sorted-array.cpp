@@ -15,7 +15,7 @@ public:
         return nums[n-1];
      }
      int s=1,e=n-2;
-     while(s<=e)
+     while(s<e)
      {
         int mid=s+(e-s)/2;
         bool isEven=(mid+1)%2==0;
@@ -46,6 +46,6 @@ public:
             return nums[mid];
         }
      }
-     return -1;
+     return nums[s];
     }
 };
