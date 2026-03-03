@@ -2,9 +2,7 @@ class Solution {
 public:
     int findMin(vector<int>& nums) {
         int s=0,e=nums.size()-1;
-        while(s<e)
-        {
-            while(s<e && nums[s]==nums[s+1])
+         while(s<e && nums[s]==nums[s+1])
             {
                  s++;
             }
@@ -12,6 +10,8 @@ public:
             {
                 e--;
             }
+        while(s<e)
+        {
              int mid=s+(e-s)/2;
              if(nums[mid]<=nums[e])
              {
