@@ -1,8 +1,7 @@
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int s=0,e=nums.size()-1,ans=0;
-        int n=nums.size();
+        int ans=0,s=0,e=nums.size()-1,n=nums.size();
         while(s<=e)
         {
             int mid=s+(e-s)/2;
@@ -13,7 +12,7 @@ public:
             }
             else
             {
-               s=mid+1;
+                s=mid+1;
             }
         }
         return nums[ans];
