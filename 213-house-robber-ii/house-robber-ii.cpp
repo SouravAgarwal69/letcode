@@ -1,26 +1,23 @@
 class Solution {
 public:
-     int recursion(vector<int>&nums,int index,int e,vector<int>&dp)
+     int find(vector<int>&nums,int s,int e)
      {
-        if(index>e)
-        {
-            return 0;
-        }
-        if(dp[index]!=-1)
-        {
-            return dp[index];
-        }
-        int skip=recursion(nums,index+1,e,dp);
-        int take=nums[index]+recursion(nums,index+2,e,dp);
-        return dp[index]=max(skip,take);
+          int prevPrev=0,prev=nums[s],ans=nums[s];
+          for(int i=s+1;i<=e;i++)
+          {
+              int skip=prev;
+              int stashed=nums[i]+prevPrev;
+              ans=max(skip,stashed);
+              prevPrev=prev;
+              prev=ans;
+          }
+          return ans;
      }
     int rob(vector<int>& nums) {
         if(nums.size()==1)
         {
             return nums[0];
         }
-        vector<int>dp1(nums.size(),-1);
-        vector<int>dp2(nums.size(),-1);
-       return max(recursion(nums,0,nums.size()-2,dp1),recursion(nums,1,nums.size()-1,dp2));
+       return max(find(nums,0,nums.size()-2),find(nums,1,nums.size()-1));
     }
 };
