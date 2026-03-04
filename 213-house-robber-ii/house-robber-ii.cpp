@@ -2,17 +2,16 @@ class Solution {
 public:
     int find(int s,int e,vector<int>&nums,vector<int>&dp)
     {
-        if(s>e)
-        {
-            return 0;
-        }
-       if(dp[s]!=-1)
+       int prevPrev=0,prev=nums[s],ans=nums[s];
+       for(int i=s+1;i<=e;i++)
        {
-          return dp[s];
+           int skip=prev;
+           int stashed=nums[i]+prevPrev;
+           ans=max(skip,stashed);
+           prevPrev=prev;
+           prev=ans;
        }
-       int skip=find(s+1,e,nums,dp);
-       int stashed=nums[s]+find(s+2,e,nums,dp);
-       return dp[s]=max(skip,stashed);
+       return ans;
     }
     int rob(vector<int>& nums) {
         if(nums.size()==1)
