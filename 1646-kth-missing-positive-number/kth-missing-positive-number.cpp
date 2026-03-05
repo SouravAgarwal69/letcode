@@ -1,15 +1,21 @@
 class Solution {
 public:
     int findKthPositive(vector<int>& arr, int k) {
-        for(int i=0;i<arr.size();i++)
+        int s=0,e=arr.size()-1,ans=-1;
+        while(s<=e)
         {
-            int missing=arr[i]-(i+1);
+            int mid=s+(e-s)/2;
+            int missing=arr[mid]-(mid+1);
             if(missing>=k)
             {
-                return i+k;
+                  e=mid-1;
+            }
+            else
+            {
+                ans=mid;
+                s=mid+1;
             }
         }
-        return arr.size()+k;
-
+        return ans+k+1;
     }
 };
