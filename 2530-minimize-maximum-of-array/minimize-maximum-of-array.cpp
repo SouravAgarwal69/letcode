@@ -3,16 +3,17 @@ public:
     bool isPossible(vector<int>&nums,int target)
     {
         vector<long long>temp(nums.begin(),nums.end());
-        for(int i=0;i<nums.size()-1;i++)
+        long long buffer=target-temp[0];
+        for(int i=1;i<nums.size();i++)
         {
+            temp[i]-=buffer;
             if(temp[i]>target)
             {
                 return false;
             }
-            long long buffer=target-temp[i];
-            temp[i+1]=temp[i+1]-buffer;
+             buffer=target-temp[i];
         }
-        return temp[temp.size()-1]<=target;
+        return true;;
     }
     int minimizeArrayValue(vector<int>& nums) {
         int s=nums[0],e=*max_element(nums.begin(),nums.end());
