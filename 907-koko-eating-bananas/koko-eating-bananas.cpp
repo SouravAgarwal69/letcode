@@ -5,7 +5,7 @@ public:
         long long time=0;
         for(int i=0;i<piles.size();i++)
         {
-            time+=ceil((piles[i]+mid-1)/mid);
+            time+=((piles[i]+mid-1)/mid);
             if(time>h)
             {
                return false;
