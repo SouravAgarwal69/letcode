@@ -1,12 +1,12 @@
 class Solution {
 public:
     long long maxAlternatingSum(vector<int>& nums) {
-        vector<vector<long long>>dp(nums.size()+1,vector<long long>(2));
-        for(int i=1;i<=nums.size();i++)
+        long long odd=0,even=0;
+        for(int i=0;i<nums.size();i++)
         {
-            dp[i][0]=max(dp[i-1][0],dp[i-1][1]+nums[i-1]);
-            dp[i][1]=max(dp[i-1][1],dp[i-1][0]-nums[i-1]);
+            odd=max(odd,even-nums[i]);
+            even=max(even,odd+nums[i]);
         }
-        return max(dp[nums.size()][0],dp[nums.size()][1]);
+        return max(odd,even);
     }
 };
