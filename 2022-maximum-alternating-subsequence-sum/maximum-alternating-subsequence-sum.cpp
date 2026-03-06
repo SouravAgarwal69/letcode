@@ -1,12 +1,22 @@
 class Solution {
 public:
-    long long maxAlternatingSum(vector<int>& nums) {
-        vector<vector<long long>>dp(nums.size()+1,vector<long long>(2));
-        for(int i=1;i<=nums.size();i++)
+    long long find(vector<int>&nums,vector<vector<long long>>&dp,int index,int flag)
+    {
+        if(index==nums.size())
         {
-            dp[i][0]=max(dp[i-1][0],nums[i-1]+dp[i-1][1]);
-            dp[i][1]=max(dp[i-1][1],dp[i-1][0]-nums[i-1]);
+            return 0;
         }
-        return max(dp[nums.size()][0],dp[nums.size()][1]);
+        if(dp[index][flag]!=-1)
+        {
+            return dp[index][flag];
+        }
+        int value=flag==0?nums[index]:(-1)*nums[index];
+        long long take=value+find(nums,dp,index+1,1-flag);
+        long long skip=find(nums,dp,index+1,flag);
+        return dp[index][flag]=max(take,skip);
+    }
+    long long maxAlternatingSum(vector<int>& nums) {
+        vector<vector<long long>>dp(nums.size(),vector<long long>(2,-1));
+       return find(nums,dp,0,0);
     }
 };
