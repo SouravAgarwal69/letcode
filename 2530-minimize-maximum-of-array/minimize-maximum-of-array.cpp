@@ -1,30 +1,31 @@
 class Solution {
 public:
-    bool isPossible(vector<int>&nums,int target)
+    bool isPossible(vector<int>&temp,long long target)
     {
-        vector<long long>temp(nums.begin(),nums.end());
-        long long buffer=target-temp[0];
-        for(int i=1;i<nums.size();i++)
+        vector<long long>nums(temp.begin(),temp.end());
+        long long buffer=0;
+        for(int i=0;i<nums.size()-1;i++)
         {
-            temp[i]-=buffer;
-            if(temp[i]>target)
+            if(nums[i]>target)
             {
                 return false;
             }
-             buffer=target-temp[i];
+            buffer=target-nums[i];
+            nums[i+1]=nums[i+1]-buffer;
         }
-        return true;;
+        return nums[nums.size()-1]<=target;
     }
     int minimizeArrayValue(vector<int>& nums) {
-        int s=nums[0],e=*max_element(nums.begin(),nums.end());
-        int ans=e;
+        long long s=*min_element(nums.begin(),nums.end());
+      long long e=*max_element(nums.begin(),nums.end());
+       long long ans=e;
         while(s<=e)
         {
-            int mid=s+(e-s)/2;
+           long long mid=s+(e-s)/2;
             if(isPossible(nums,mid))
             {
-                 ans=mid;
-                 e=mid-1;
+                ans=mid;
+                e=mid-1;
             }
             else
             {
