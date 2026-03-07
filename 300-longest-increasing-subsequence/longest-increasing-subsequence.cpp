@@ -1,29 +1,19 @@
 class Solution {
 public:
-    int find(vector<int>&nums,int index,int prev,vector<vector<int>>&dp)
-    {
-        if(index==nums.size())
-        {
-            return 0;
-        }
-        if(prev!=-1 && dp[index][prev]!=-1)
-        {
-            return dp[index][prev];
-        }
-        int take=0;
-        if(prev==-1 || nums[index]>nums[prev])
-        {
-         take=1+find(nums,index+1,index,dp);
-        }
-        int skip=find(nums,index+1,prev,dp);
-        if(prev!=-1)
-        {
-        return dp[index][prev]=max(skip,take);
-        }
-        return max(skip,take);
-    }
     int lengthOfLIS(vector<int>& nums) {
-        vector<vector<int>>dp(nums.size(),vector<int>(nums.size(),-1));
-        return find(nums,0,-1,dp);
+        vector<int>dp(nums.size(),1);
+        int maximum=1;
+        for(int i=1;i<nums.size();i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(nums[j]<nums[i])
+                {
+                    dp[i]=max(dp[i],dp[j]+1);
+                    maximum=max(maximum,dp[i]);
+                }
+            }
+        }
+        return maximum;
     }
 };
