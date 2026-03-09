@@ -1,15 +1,22 @@
 class Solution {
 public:
-    int rob(vector<int>& nums) {
-        int prevPrev=0,prev=nums[0],ans=prev;
-        for(int i=1;i<nums.size();i++)
+    int dp[101][2];
+    int find(vector<int>&nums,int index,int flag)
+    {
+        if(index>=nums.size())
         {
-            int skip=prev;
-            int stashed=nums[i]+prevPrev;
-            ans=max(skip,stashed);
-            prevPrev=prev;
-             prev=ans;
+            return 0;
         }
-        return ans;
+        if(dp[index][flag]!=-1)
+        {
+            return dp[index][flag];
+        }
+        int take=nums[index]+find(nums,index+2,1);
+        int skip=find(nums,index+1,0);
+        return dp[index][flag]=max(take,skip);
+    }
+    int rob(vector<int>& nums) {
+        memset(dp,-1,sizeof(dp));
+        return find(nums,0,1);
     }
 };
