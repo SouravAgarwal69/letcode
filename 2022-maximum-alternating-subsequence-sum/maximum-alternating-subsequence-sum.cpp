@@ -1,12 +1,23 @@
 class Solution {
 public:
-    long long maxAlternatingSum(vector<int>& nums) {
-        long long odd=0,even=0;
-        for(int i=0;i<nums.size();i++)
+    long long dp[100000][2];
+    long long find(int index,vector<int>&nums,int flag)
+    {
+        if(index==nums.size())
         {
-            odd=max(odd,even-nums[i]);
-            even=max(even,odd+nums[i]);
+            return 0;
         }
-        return max(odd,even);
+       if(dp[index][flag]!=-1)
+        {
+            return dp[index][flag];
+        }
+        int value=flag==0?nums[index]:-nums[index];
+        long long take=value+find(index+1,nums,1-flag);
+        long long skip=find(index+1,nums,flag);
+        return dp[index][flag]=max(take,skip);
+    }
+    long long maxAlternatingSum(vector<int>& nums) {
+        memset(dp,-1,sizeof(dp));
+        return find(0,nums,0);
     }
 };
