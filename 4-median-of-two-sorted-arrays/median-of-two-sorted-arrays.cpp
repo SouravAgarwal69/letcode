@@ -1,71 +1,35 @@
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int element1=-1,element2=-1;
-        int size=nums1.size()+nums2.size();
-        int i=0,j=0,k=0,index1=(size-1)/2,index2=size/2;
-        while(i<nums1.size() && j<nums2.size())
+        if(nums1.size()>nums2.size())
         {
-            if(nums1[i]<nums2[j])
+            swap(nums1,nums2);
+        }
+        int s=0,e=nums1.size(),size=nums1.size()+nums2.size();
+        while(s<=e)
+        {
+            int p1=s+(e-s)/2;
+            int p2=((size+1)/2)-p1;
+            double x1=p1==0?INT_MIN:nums1[p1-1];
+            double x2=p1==nums1.size()?INT_MAX:nums1[p1];
+            double y1=p2==0?INT_MIN:nums2[p2-1];
+            double y2=p2==nums2.size()?INT_MAX:nums2[p2];
+            if(x1<=y2 && y1<=x2)
             {
-               
-                 if(k==index1)
-            {
-                element1=nums1[i];
+                if(size%2==0)
+                {
+                    return (max(x1,y1)+min(x2,y2))/2.0;
+                }
+                return max(x1,y1);
             }
-            if(k==index2)
+            else if(x1>y2)
             {
-                element2=nums1[i];
+                e=p1-1;
             }
-             i++;
-             k++;
-            }
-            else
-            {
-               
-                 if(k==index1)
-            {
-                element1=nums2[j];
-            }
-            if(k==index2)
-            {
-                element2=nums2[j];
-            }
-             j++;
-                k++;
+            else{
+                s=p1+1;
             }
         }
-        while(i<nums1.size())
-        {
-           
-            if(k==index1)
-            {
-                element1=nums1[i];
-            }
-            if(k==index2)
-            {
-                element2=nums1[i];
-            }
-             i++;
-            k++;
-        }
-        while(j<nums2.size())
-        {
-             if(k==index1)
-            {
-                element1=nums2[j];
-            }
-            if(k==index2)
-            {
-                element2=nums2[j];
-            }
-             j++;
-            k++;
-        }
-        if((nums1.size()+nums2.size())%2==0)
-        {
-            return (element1+element2)/2.0;
-        }
-        return element1;
+        return -1;
     }
 };
