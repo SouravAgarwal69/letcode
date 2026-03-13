@@ -1,53 +1,42 @@
 class Solution {
 public:
-    int dp[1000][1000];
-    bool isPossible(vector<string>&words,int prev,int index)
+    bool isPossible(int j,int i,vector<string>&words)
     {
-        string word1=words[prev];
-        string word2=words[index];
-        if(word1.size()+1!=word2.size())
+        string prev=words[j];
+        string curr=words[i];
+        if(prev.size()+1!=curr.size())
         {
             return false;
         }
-        int i=0,j=0;
-        while(i<word1.size() && j<word2.size())
+        int m=0,n=0;
+        while(m<prev.size() && n<curr.size())
         {
-            if(word1[i]==word2[j])
+            if(prev[m]==curr[n])
             {
-                i++;
+                m++;
             }
-            j++;
+            n++;
         }
-        return i==word1.size();
-    }
-    int find(vector<string>&words,int index,int prev)
-    {
-        if(index==words.size())
-        {
-            return 0;
-        }
-        if(prev!=-1 && dp[index][prev]!=-1)
-        {
-            return dp[index][prev];
-        }
-        int take=0;
-        if(prev==-1 || isPossible(words,prev,index))
-        {
-            take=1+find(words,index+1,index);
-        }
-        int skip=find(words,index+1,prev);
-        if(prev!=-1)
-        {
-            return dp[index][prev]=max(take,skip);
-        }
-        return max(take,skip);
+        return m==prev.size();
     }
     int longestStrChain(vector<string>& words) {
-        memset(dp,-1,sizeof(dp));
-        sort(words.begin(),words.end(),[](string &a, string &b)
+        sort(words.begin(),words.end(),[](string &words1,string &words2)
         {
-            return a.size()<b.size();
+            return words1.size()<words2.size();
         });
-        return find(words,0,-1);
+        vector<int>dp(words.size(),1);
+        int maximum=1;
+        for(int i=1;i<words.size();i++)
+        {
+            for(int j=0;j<i;j++)
+            {
+                if(isPossible(j,i,words))
+                {
+                   dp[i]=max(dp[i],dp[j]+1);
+                }
+            }
+            maximum=max(maximum,dp[i]);
+        }
+        return maximum;
     }
 };
