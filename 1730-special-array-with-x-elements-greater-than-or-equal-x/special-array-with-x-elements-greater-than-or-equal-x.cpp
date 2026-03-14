@@ -1,19 +1,24 @@
 class Solution {
 public:
     int specialArray(vector<int>& nums) {
-        for(int i=1;i<=nums.size();i++)
+        sort(nums.begin(),nums.end());
+        int s=1,e=nums.size();
+        while(s<=e)
         {
-            int cnt=0;
-            for(int j=0;j<nums.size();j++)
+            int mid=s+(e-s)/2;
+            int index=lower_bound(nums.begin(),nums.end(),mid)-nums.begin();
+            int element=nums.size()-index;
+            if(element==mid)
             {
-                if(nums[j]>=i)
-                {
-                    cnt++;
-                }
+                return mid;
             }
-            if(cnt==i)
+            else if(element>mid)
             {
-                return i;
+                s=mid+1;
+            }
+            else
+            {
+                e=mid-1;
             }
         }
         return -1;
