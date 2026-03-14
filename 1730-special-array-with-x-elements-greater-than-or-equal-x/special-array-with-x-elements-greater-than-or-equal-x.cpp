@@ -1,24 +1,29 @@
 class Solution {
 public:
     int specialArray(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
-        int s=1,e=nums.size();
-        while(s<=e)
+        vector<int>freq(nums.size()+1);
+        for(int i=0;i<nums.size();i++)
         {
-            int mid=s+(e-s)/2;
-            int index=lower_bound(nums.begin(),nums.end(),mid)-nums.begin();
-            int element=nums.size()-index;
-            if(element==mid)
+            if(nums[i]>=nums.size())
             {
-                return mid;
-            }
-            else if(element>mid)
-            {
-                s=mid+1;
+                freq[nums.size()]++;
             }
             else
             {
-                e=mid-1;
+                freq[nums[i]]++;
+            }
+        }
+        vector<int>freqSum(nums.size()+1);
+        freqSum[nums.size()]=freq[nums.size()];
+        for(int i=freq.size()-2;i>=0;i--)
+        {
+            freqSum[i]=freqSum[i+1]+freq[i];
+        }
+        for(int i=0;i<freqSum.size();i++)
+        {
+            if(freqSum[i]==i)
+            {
+                return i;
             }
         }
         return -1;
