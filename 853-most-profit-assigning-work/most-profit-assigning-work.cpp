@@ -1,24 +1,44 @@
 class Solution {
 public:
+    int find(vector<pair<int,int>>&vp,int target)
+    {
+        int s=0,e=vp.size()-1;
+        int ans=0;
+        while(s<=e)
+        {
+            int mid=s+(e-s)/2;
+            if(vp[mid].first<=target)
+            {
+                ans=vp[mid].second;
+                s=mid+1;
+            }
+            else
+            {
+                e=mid-1;
+            }
+        }
+        return ans;
+    }
     int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
-        long long totalProfit=0;
-        priority_queue<pair<int,int>>pq;
-        for(int i=0;i<difficulty.size();i++)
+        int n=profit.size();
+        int m=worker.size();
+        vector<pair<int,int>>vp;
+        for(int i=0;i<n;i++)
         {
-            pq.push(make_pair(profit[i],difficulty[i]));
+            vp.push_back(make_pair(difficulty[i],profit[i]));
         }
-        sort(worker.begin(),worker.end(),greater<int>());
-        for(int i=0;i<worker.size();i++)
+        sort(vp.begin(),vp.end());
+        int maximum=0;
+        for(int i=0;i<n;i++)
         {
-            while(!pq.empty() && worker[i]<pq.top().second)
-            {
-                pq.pop();
-            }
-            if(!pq.empty())
-            {
-                totalProfit+=pq.top().first;
-            }
+            maximum=max(vp[i].second,maximum);
+             vp[i].second=maximum;
         }
-        return totalProfit;
+        int total=0;
+        for(int i=0;i<m;i++)
+        {
+           total+=find(vp,worker[i]);
+        }
+        return total;
     }
 };
