@@ -1,43 +1,26 @@
 class Solution {
 public:
-    int find(vector<pair<int,int>>&vp,int target)
-    {
-        int s=0,e=vp.size()-1;
-        int ans=0;
-        while(s<=e)
-        {
-            int mid=s+(e-s)/2;
-            if(vp[mid].first<=target)
-            {
-                ans=vp[mid].second;
-                s=mid+1;
-            }
-            else
-            {
-                e=mid-1;
-            }
-        }
-        return ans;
-    }
     int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
-        int n=profit.size();
-        int m=worker.size();
+        int n=difficulty.size();
         vector<pair<int,int>>vp;
-        for(int i=0;i<n;i++)
+        for(int i=0;i<difficulty.size();i++)
         {
             vp.push_back(make_pair(difficulty[i],profit[i]));
         }
         sort(vp.begin(),vp.end());
-        int maximum=0;
-        for(int i=0;i<n;i++)
+        sort(worker.begin(),worker.end());
+        int maxProfit=0;
+        long long total=0;
+        int i=0,j=0;
+        while(j<worker.size() )
         {
-            maximum=max(vp[i].second,maximum);
-             vp[i].second=maximum;
-        }
-        int total=0;
-        for(int i=0;i<m;i++)
-        {
-           total+=find(vp,worker[i]);
+           while(i<n && worker[j]>=vp[i].first)  
+           {
+               maxProfit=max(vp[i].second,maxProfit);
+               i++;
+           }
+              total+=maxProfit;
+              j++;          
         }
         return total;
     }
