@@ -1,42 +1,52 @@
 class Solution {
 public:
-    bool isPossible(int j,int i,vector<string>&words)
+    int dp[1000][1000];
+    bool isPossible(int prev,int index,vector<string>&words)
     {
-        string prev=words[j];
-        string curr=words[i];
-        if(prev.size()+1!=curr.size())
+        if(words[prev].size()+1!=words[index].size())
         {
             return false;
         }
-        int m=0,n=0;
-        while(m<prev.size() && n<curr.size())
+        string s1=words[prev];
+        string s2=words[index];
+        int i=0,j=0;
+        while(j<s2.size() && i<s1.size())
         {
-            if(prev[m]==curr[n])
+            if(s1[i]==s2[j])
             {
-                m++;
+                i++;
             }
-            n++;
+            j++;
         }
-        return m==prev.size();
+        return i==s1.size();
+    }
+    int findLength(vector<string>&words,int prev,int index)
+    {
+        if(index==words.size())
+        {
+            return 0;
+        }
+        if(prev!=-1 && dp[index][prev]!=-1)
+        {
+            return dp[index][prev];
+        }
+        int take=0;
+        if(prev==-1 || isPossible(prev,index,words))
+        {
+            take=1+findLength(words,index,index+1);
+        }
+        int skip=findLength(words,prev,index+1);
+        if(prev!=-1)
+        {
+           return dp[index][prev]=max(take,skip);
+        }
+        return max(take,skip);
     }
     int longestStrChain(vector<string>& words) {
-        sort(words.begin(),words.end(),[](string &words1,string &words2)
-        {
-            return words1.size()<words2.size();
+        memset(dp,-1,sizeof(dp));
+        sort(words.begin(),words.end(),[](string &a,string &b){
+           return a.length()<b.length();
         });
-        vector<int>dp(words.size(),1);
-        int maximum=1;
-        for(int i=1;i<words.size();i++)
-        {
-            for(int j=0;j<i;j++)
-            {
-                if(isPossible(j,i,words))
-                {
-                   dp[i]=max(dp[i],dp[j]+1);
-                }
-            }
-            maximum=max(maximum,dp[i]);
-        }
-        return maximum;
+       return findLength(words,-1,0);
     }
 };
