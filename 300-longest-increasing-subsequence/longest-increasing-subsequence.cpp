@@ -1,19 +1,30 @@
 class Solution {
 public:
-    int lengthOfLIS(vector<int>& nums) {
-        vector<int>dp(nums.size(),1);
-        int maximum=1;
-        for(int j=1;j<nums.size();j++)
+    int dp[2500][2500];
+    int findLength(vector<int>&nums,int index,int prev)
+    {
+        if(index==nums.size())
         {
-            for(int i=0;i<j;i++)
-            {
-                if(nums[j]>nums[i])
-                {
-                dp[j]=max(dp[j],dp[i]+1);
-                }
-            }
-            maximum=max(maximum,dp[j]);
+            return 0;
         }
-        return maximum;
+        if(prev!=-1 && dp[index][prev]!=-1)
+        {
+            return dp[index][prev];
+        }
+        int take=0;
+        if(prev==-1 || nums[prev]<nums[index])
+        {
+            take=1+findLength(nums,index+1,index);
+        }
+        int skip=findLength(nums,index+1,prev);
+        if(prev!=-1)
+        {
+            return dp[index][prev]=max(take,skip);
+        }
+        return max(take,skip);
+    }
+    int lengthOfLIS(vector<int>& nums) {
+        memset(dp,-1,sizeof(dp));
+        return findLength(nums,0,-1);
     }
 };
