@@ -22,10 +22,10 @@ public:
                 maxIndex=i;
             }
         }
-       result.push_back(nums[maxIndex]);
-       while(prev[maxIndex]!=-1)
+     
+       while(maxIndex!=-1)
        {
-          result.push_back(nums[prev[maxIndex]]);
+          result.push_back(nums[maxIndex]);
           maxIndex=prev[maxIndex];
        }
        return result;
