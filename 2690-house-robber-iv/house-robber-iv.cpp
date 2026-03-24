@@ -1,16 +1,17 @@
 class Solution {
 public:
-    bool isPossible(int target,vector<int>&nums,int k)
+    bool isPossible(int mid,vector<int>&nums,int k)
     {
-        int house=0,i=0;
-       while(i<nums.size())
+        int i=0,house=0;
+        while(i<nums.size())
         {
-            if(nums[i]<=target)
+            if(nums[i]<=mid)
             {
-                house++;
-                i+=2;
+               house++;
+               i+=2;
             }
-            else{
+            else
+            {
                 i++;
             }
         }
