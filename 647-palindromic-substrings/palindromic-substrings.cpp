@@ -1,33 +1,30 @@
 class Solution {
 public:
-    int dp[1000][1000];
-    bool check(string &s,int i,int j)
-    {
-        if(i>j)
-        {
-            return true;
-        }
-        if(dp[i][j]!=-1)
-        {
-            return dp[i][j];
-        }
-        if(s[i]==s[j])
-        {
-            return dp[i][j]=check(s,i+1,j-1);
-        }
-        return dp[i][j]=false;
-    }
     int countSubstrings(string s) {
-        memset(dp,-1,sizeof(dp));
         int total=0;
-        for(int i=0;i<s.size();i++)
+        vector<vector<bool>>dp(s.size()+1,vector<bool>(s.size()+1));
+        for(int len=1;len<=s.size();len++)
         {
-            for(int j=i;j<s.size();j++)
+            for(int i=0;i+len-1<s.size();i++)
             {
-                if(check(s,i,j))
-                {
-                    total++;
-                }
+                int j=i+len-1;
+               if(len==1)
+               {
+                  dp[i][j]=true;
+               }
+               else if(len==2)
+               {
+                 dp[i][j]=(s[i]==s[j]);
+               }
+               else 
+               {
+                  dp[i][j]=s[i]==s[j] && dp[i+1][j-1];
+               }
+               if(dp[i][j])
+               {
+                  total++;
+               }
+
             }
         }
         return total;
