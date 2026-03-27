@@ -1,27 +1,26 @@
 class Solution {
 public:
-    int dp[501][501];
-    int findminDistance(string &word1,string &word2,int m,int n)
-    {
-         if(m==0 || n==0)
-         {
-            return m+n;
-         }
-           if(dp[m][n]!=-1)
-         {
-            return dp[m][n];
-         }
-         if(word1[m-1]==word2[n-1])
-         {
-            return dp[m][n]=findminDistance(word1,word2,m-1,n-1);
-         }
-         int insert=1+findminDistance(word1,word2,m,n-1);
-         int Delete=1+findminDistance(word1,word2,m-1,n);
-         int Replace=1+findminDistance(word1,word2,m-1,n-1);
-         return dp[m][n]=min({insert,Delete,Replace});
-    }
     int minDistance(string word1, string word2) {
-        memset(dp,-1,sizeof(dp));
-        return findminDistance(word1,word2,word1.size(),word2.size());
+        int m=word1.size()+1,n=word2.size()+1;
+        vector<vector<int>>mat(m,vector<int>(n));
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(i==0 || j==0)
+                {
+                    mat[i][j]=i+j;
+                }
+                else if(word1[i-1]==word2[j-1])
+                {
+                    mat[i][j]=mat[i-1][j-1];
+                }
+                else
+                {
+                    mat[i][j]=1+min({mat[i-1][j-1],mat[i][j-1],mat[i-1][j]});
+                }
+            }
+        }
+        return mat[m-1][n-1];
     }
 };
