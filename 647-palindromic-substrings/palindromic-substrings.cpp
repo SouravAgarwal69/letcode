@@ -15,7 +15,7 @@ public:
         {
             return dp[i][j]=check(s,i+1,j-1);
         }
-        return false;
+        return dp[i][j]=false;
     }
     int countSubstrings(string s) {
         memset(dp,-1,sizeof(dp));
