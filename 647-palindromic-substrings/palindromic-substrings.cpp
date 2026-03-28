@@ -1,28 +1,33 @@
 class Solution {
 public:
-    int countSubstrings(string s) {
-        vector<vector<bool>>dp(s.size(),vector<bool>(s.size()));
-        int total=0;
-        for(int len=1;len<=s.size();len++)
+   int dp[1000][1000];
+    bool isPallindrome(string &s,int i,int j)
+    {
+        if(i>=j)
         {
-            for(int i=0;i+len-1<s.size();i++)
+            return true;
+        }
+       if(dp[i][j]!=-1)
+       {
+          return dp[i][j];
+       }
+        if(s[i]==s[j])
+        {
+         return dp[i][j]=isPallindrome(s,i+1,j-1);
+        }
+        return dp[i][j]=false;
+    }
+    int countSubstrings(string s) {
+        memset(dp,-1,sizeof(dp));
+        int total=0;
+        for(int i=0;i<s.size();i++)
+        {
+            for(int j=i;j<s.size();j++)
             {
-               int j=len+i-1;
-               if(len==1)
-               {
-                   dp[i][j]=true;
-               }
-               else if(len==2)
-               {
-                  dp[i][j]=s[i]==s[j];
-               }
-               else{
-                  dp[i][j]=(s[i]==s[j] && dp[i+1][j-1]);
-               }
-               if(dp[i][j])
-               {
-                 total++;
-               }
+                if(isPallindrome(s,i,j))
+                {
+                    total++;
+                }
             }
         }
         return total;
