@@ -1,22 +1,31 @@
 class Solution {
 public:
-    int minInsertions(string s) {
-        vector<vector<int>>dp(s.size(),vector<int>(s.size()));
-        for(int L=2;L<=s.size();L++)
+     int dp[500][500];
+    int find(string &s,int i,int j)
+    {
+        if(i==j)
         {
-           for(int i=0;i+L-1<s.size();i++)
-           {
-                 int j=i+L-1;
-                 if(s[i]==s[j])
-                 {
-                    dp[i][j]=dp[i+1][j-1];
-                 }
-                 else
-                 {
-                    dp[i][j]=1+min(dp[i+1][j],dp[i][j-1]);
-                 }
-           }
+            return 1;
         }
-        return dp[0][s.size()-1];
+        if(i>j)
+        {
+            return 0;
+        }
+        if(dp[i][j]!=-1)
+        {
+            return dp[i][j];
+        }
+        if(s[i]==s[j])
+        {
+             return dp[i][j]=2+find(s,i+1,j-1);
+        }
+        else
+        {
+            return dp[i][j]=max(find(s,i+1,j),find(s,i,j-1));
+        }
+    }
+    int minInsertions(string s) {
+        memset(dp,-1,sizeof(dp));
+        return s.size()-find(s,0,s.size()-1);
     }
 };
