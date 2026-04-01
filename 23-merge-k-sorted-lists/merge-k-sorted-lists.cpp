@@ -10,43 +10,43 @@
  */
 class Solution {
 public:
-    ListNode* merge(ListNode*l1,ListNode*l2)
+    ListNode*merge(ListNode*L1,ListNode*L2)
     {
-        if(!l1)
+        if(!L1)
         {
-            return l2;
+            return L2;
         }
-        if(!l2)
+        if(!L2)
         {
-            return l1;
+            return L1;
         }
-        if(l1->val<=l2->val)
+        if(L1->val<L2->val)
         {
-            l1->next=merge(l1->next,l2);
-            return l1;
+            L1->next=merge(L1->next,L2);
+            return L1;
         }
         else
         {
-            l2->next=merge(l1,l2->next);
-            return l2;
+            L2->next=merge(L1,L2->next);
+            return L2;
         }
     }
-    ListNode* Divide(vector<ListNode*>&lists,int s,int e)
+    ListNode*split(vector<ListNode*>&lists,int s,int e)
     {
-        if(lists.size()==0)
-        {
-            return NULL;
-        }
         if(s==e)
         {
             return lists[s];
         }
         int mid=s+(e-s)/2;
-        ListNode*l1=Divide(lists,s,mid);
-        ListNode*l2=Divide(lists,mid+1,e);
-        return merge(l1,l2);
+        ListNode* L1=split(lists,s,mid);
+        ListNode* L2=split(lists,mid+1,e);
+        return merge(L1,L2);
     }
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        return Divide(lists,0,lists.size()-1);
+        if(lists.size()==0)
+        {
+            return NULL;
+        }
+        return  split(lists,0,lists.size()-1);
     }
 };
