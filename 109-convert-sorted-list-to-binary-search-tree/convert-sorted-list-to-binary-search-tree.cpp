@@ -36,11 +36,11 @@ public:
             prev=slow;
             slow=slow->next;
             fast=fast->next->next;
-        }
-        prev->next=NULL;
-        TreeNode*temp=new TreeNode(slow->val);
-        temp->left=sortedListToBST(head);
-        temp->right=sortedListToBST(slow->next);
-        return temp;
+        } 
+        prev->next=NULL;  
+        TreeNode*root=new TreeNode(slow->val);
+        root->left=sortedListToBST(head);
+        root->right=sortedListToBST(slow->next);
+        return root;
     }
 };
