@@ -21,25 +21,26 @@
  */
 class Solution {
 public:
-    TreeNode* construct(vector<int>&arr,int s,int e)
-    {
-        if(s>e)
+    TreeNode* sortedListToBST(ListNode* head) {
+        if(!head)
         {
             return NULL;
         }
-        int mid=s+(e-s)/2;
-        TreeNode* temp=new TreeNode(arr[mid]);
-        temp->left=construct(arr,s,mid-1);
-        temp->right=construct(arr,mid+1,e);
-        return temp;
-    }
-    TreeNode* sortedListToBST(ListNode* head) {
-        vector<int>arr;
-        while(head)
+        if(!head->next)
         {
-            arr.push_back(head->val);
-            head=head->next;
+            return new TreeNode(head->val);
         }
-      return  construct(arr,0,arr.size()-1);
+        ListNode*slow=head,*fast=head,*prev=NULL;
+        while(fast && fast->next)
+        {
+            prev=slow;
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+        prev->next=NULL;
+        TreeNode*temp=new TreeNode(slow->val);
+        temp->left=sortedListToBST(head);
+        temp->right=sortedListToBST(slow->next);
+        return temp;
     }
 };
