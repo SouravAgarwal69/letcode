@@ -1,43 +1,47 @@
 class Solution {
 public:
-    bool isPallindrome(string temp,int s,int e)
-    {
-        if(s>=e)
-        {
-            return true;
-        }
-        if(temp[s]==temp[e])
-        {
-           return isPallindrome(temp,s+1,e-1);
-        }
-        return false;
-    }
-    void find(string &s,vector<vector<string>>&result,vector<string>&temp,int index)
+    void fun(string &s,vector<vector<string>>&result,vector<string>&ans,vector<vector<bool>>&mat,int index)
     {
         if(index==s.size())
         {
-            result.push_back(temp);
+            result.push_back(ans);
             return;
         }
-        for(int part=1;part<=s.size();part++)
+        for(int i=index;i<s.size();i++)
         {
-            if(index+part>s.size())
+            string temp=s.substr(index,i-index+1);
+            if(mat[index][i])
             {
-                break;
-            }
-            string var=s.substr(index,part);
-            if(isPallindrome(var,0,var.size()-1))
-            {
-                temp.push_back(var);
-                find(s,result,temp,index+part);
-                temp.pop_back();
+                ans.push_back(temp);
+                fun(s,result,ans,mat,i+1);
+                ans.pop_back();
             }
         }
     }
     vector<vector<string>> partition(string s) {
         vector<vector<string>>result;
-        vector<string>temp;
-        find(s,result,temp,0);
+        vector<string>ans;
+        vector<vector<bool>>mat(s.size(),vector<bool>(s.size()));
+        for(int L=1;L<=s.size();L++)
+        {
+            for(int i=0;i+L-1<s.size();i++)
+            {
+                int j=i+L-1;
+                if(L==1)
+                {
+                    mat[i][j]=true;
+                }
+                else if(L==2)
+                {
+                    mat[i][j]=(s[i]==s[j]);
+                }
+                else
+                {
+                    mat[i][j]=(s[i]==s[j] && mat[i+1][j-1]);
+                }
+            }
+        }
+        fun(s,result,ans,mat,0);
         return result;
     }
 };
