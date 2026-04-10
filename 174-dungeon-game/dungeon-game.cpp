@@ -1,45 +1,25 @@
 class Solution {
 public:
-    bool isPossible(int i,int j,int mid,vector<vector<int>>&dungeon,unordered_map<string,int>&mp)
-    {
-           if(i>=dungeon.size() || j>=dungeon[0].size())
-           {
-              return false;
-           }
-           string temp=to_string(i)+"_"+to_string(j)+"_"+to_string(mid);
-           if(mp.find(temp)!=mp.end())
-           {
-              return mp[temp];
-           }
-            mid+=dungeon[i][j];
-           if(mid<=0)
-           {
-              return false;
-           }
-           if(i==dungeon.size()-1 && j==dungeon[0].size()-1)
-           {
-                return true;
-           }
-          
-         return mp[temp]=isPossible(i,j+1,mid,dungeon,mp) || isPossible(i+1,j,mid,dungeon,mp);
-    }
     int calculateMinimumHP(vector<vector<int>>& dungeon) {
-        int s=1,e=4*1e7;
-        int result=e;
-        unordered_map<string,int>mp;
-        while(s<=e)
+        int m=dungeon.size(),n=dungeon[0].size();
+        vector<vector<int>>mat(m,vector<int>(n));
+        for(int i=m-1;i>=0;i--)
         {
-            int mid=s+(e-s)/2;
-            if(isPossible(0,0,mid,dungeon,mp))
+            for(int j=n-1;j>=0;j--)
             {
-                result=mid;
-                e=mid-1;
-            }
-            else
-            {
-                s=mid+1;
+                if(i==m-1 && j==n-1)
+                {
+                    mat[i][j]=dungeon[i][j]>0?1:abs(dungeon[i][j])+1;
+                }
+                else
+                {
+                    int right=j==n-1?INT_MAX:mat[i][j+1];
+                    int down=i==m-1?INT_MAX:mat[i+1][j];
+                    int val=min(right,down)-dungeon[i][j];
+                    mat[i][j]=val>0?val:1;
+                }
             }
         }
-        return result;
+        return mat[0][0];
     }
 };
