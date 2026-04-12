@@ -15,15 +15,15 @@ public:
         {
             return head;
         }
-        ListNode*OddHead=head,*EvenHead=head->next,*EvenTail=head->next,*OddTail=head;
-        while(EvenTail && EvenTail->next)
+        ListNode*oddHead=head,*oddTail=head,*evenHead=head->next,*evenTail=head->next;
+        while(evenTail && evenTail->next)
         {
-            OddTail->next=OddTail->next->next;
-            EvenTail->next=EvenTail->next->next;
-            OddTail=OddTail->next;
-            EvenTail=EvenTail->next;
+            oddTail->next=evenTail->next;
+            evenTail->next=evenTail->next->next;
+            oddTail=oddTail->next;
+            evenTail=evenTail->next;
         }
-        OddTail->next=EvenHead;
-        return OddHead;
+        oddTail->next=evenHead;
+        return oddHead;
     }
 };
