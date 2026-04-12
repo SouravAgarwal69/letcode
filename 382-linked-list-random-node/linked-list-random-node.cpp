@@ -10,19 +10,17 @@
  */
 class Solution {
 public:
-   vector<int>arr;
+    vector<int>temp;
     Solution(ListNode* head) {
-        ListNode*temp=head;
-        while(temp)
+        while(head)
         {
-            arr.push_back(temp->val);
-            temp=temp->next;
+            temp.push_back(head->val);
+            head=head->next;
         }
     }
-    
     int getRandom() {
-        int index=rand()%arr.size();
-        return arr[index];
+      int index=rand()%temp.size();
+      return temp[index];   
     }
 };
 
