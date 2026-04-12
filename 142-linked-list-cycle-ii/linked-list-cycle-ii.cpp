@@ -8,9 +8,9 @@
  */
 class Solution {
 public:
-    ListNode* findIntersection(ListNode*slow,ListNode*fast)
+    ListNode*find(ListNode*slow,ListNode*fast)
     {
-        while(fast && fast->next)
+        while(fast && fast->next )
         {
             slow=slow->next;
             fast=fast->next->next;
@@ -19,20 +19,20 @@ public:
                 return slow;
             }
         }
-        return NULL;
+       return NULL;
     }
     ListNode *detectCycle(ListNode *head) {
-        ListNode *ptr=findIntersection(head,head);
-        if(ptr==NULL)
+        ListNode*slow=head,*fast=head;
+        ListNode*intersection=find(slow,fast);
+        if(!intersection)
         {
-            return NULL;
+            return intersection;
         }
-       ListNode* ptr2=head;
-       while(ptr!=ptr2)
-       {
-          ptr=ptr->next;
-          ptr2=ptr2->next;
-       }
-       return ptr2;
+        while(head!=intersection)
+        {
+            head=head->next;
+            intersection=intersection->next;
+        }
+        return head;
     }
 };
