@@ -30,14 +30,14 @@ public:
         {
             return new TreeNode(head->val);
         }
-        ListNode*slow=head,*fast=head,*prev=NULL;
+        ListNode*slow=head,*fast=head,*prev=head;
         while(fast && fast->next)
-        {
+        { 
             prev=slow;
             slow=slow->next;
             fast=fast->next->next;
-        } 
-        prev->next=NULL;  
+        }
+        prev->next=NULL;
         TreeNode*root=new TreeNode(slow->val);
         root->left=sortedListToBST(head);
         root->right=sortedListToBST(slow->next);
