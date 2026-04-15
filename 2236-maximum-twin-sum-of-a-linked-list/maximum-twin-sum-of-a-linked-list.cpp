@@ -10,22 +10,34 @@
  */
 class Solution {
 public:
+    ListNode*reverse(ListNode*head)
+    {
+        if(!head || !head->next)
+        {
+            return head;
+        }
+        ListNode*revHead=reverse(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return revHead; 
+    }
     int pairSum(ListNode* head) {
-        stack<ListNode*>st;
-        ListNode*temp=head;
-        while(temp)
+        ListNode*slow=head,*fast=head,*prev=NULL;
+        while(fast && fast->next)
         {
-            st.push(temp);
-            temp=temp->next;
+            prev=slow;
+            slow=slow->next;
+            fast=fast->next->next;
         }
-        int n=st.size(),cnt=n/2,maxSum=0;
-        while(cnt>0)
+        ListNode*temp=reverse(slow);
+        prev->next=NULL;
+        int maximum=0;
+        while(head)
         {
-           maxSum=max(maxSum,st.top()->val+head->val);
-           st.pop();
+           maximum=max(maximum,head->val+temp->val);
            head=head->next;
-           cnt--;
+           temp=temp->next;
         }
-        return maxSum;
+        return maximum;
     }
 };
