@@ -10,47 +10,56 @@
  */
 class Solution {
 public:
-    ListNode*reverseLL(ListNode*head)
+    ListNode*reverse(ListNode*head)
     {
         if(!head || !head->next)
         {
             return head;
         }
-      ListNode*revHead=reverseLL(head->next);
-      head->next->next=head;
-      head->next=NULL;
-      return revHead;
+        ListNode*rev=reverse(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return rev;
     }
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-      l1=reverseLL(l1);
-      l2=reverseLL(l2);
-      ListNode*head=NULL;
-      int sum=0,carry=0;
-      while(l1 || l2 || carry!=0)
-      {
-         if(l1)
-         {
-           sum+=l1->val;
-           l1=l1->next;
-         }
-         if(l2)
-         {
-            sum+=l2->val;
-            l2=l2->next;
-         }
-         ListNode* temp=new ListNode(sum%10);
-         if(!head)
-         {
-            head=temp;
-         }
-         else
-         {
+        int carry=0;
+        ListNode*head=NULL;
+        l1=reverse(l1);
+        l2=reverse(l2);
+        while(l1 && l2)
+        {
+           int sum=l1->val+l2->val+carry;
+            ListNode*temp=new ListNode(sum%10);
+            carry=sum/10;
             temp->next=head;
             head=temp;
-         }
-         carry=sum/10;
-         sum=carry;
-      }
-      return head;
+            l1=l1->next;
+            l2=l2->next;
+        }
+        while(l1)
+        {
+            int sum=l1->val+carry;
+            ListNode*temp=new ListNode(sum%10);
+            temp->next=head;
+            head=temp;
+            carry=sum/10;
+            l1=l1->next;
+        }
+        while(l2)
+        {
+            int sum=l2->val+carry;
+            ListNode*temp=new ListNode(sum%10);
+            temp->next=head;
+            head=temp;
+            carry=sum/10;
+            l2=l2->next;
+        }
+        if(carry!=0)
+        {
+            ListNode*temp=new ListNode(carry);
+            temp->next=head;
+            head=temp;
+        }
+        return head;
     }
 };
