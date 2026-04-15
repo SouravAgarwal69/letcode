@@ -26,37 +26,25 @@ public:
         ListNode*head=NULL;
         l1=reverse(l1);
         l2=reverse(l2);
-        while(l1 && l2)
+        while(l1 || l2 || carry!=0)
         {
-           int sum=l1->val+l2->val+carry;
+            int sum=0;
+            if(l1)
+            {
+               sum+=l1->val;
+               l1=l1->next;
+            }
+            if(l2)
+            {
+                sum+=l2->val;
+                l2=l2->next;
+            }
+            if(carry!=0)
+            {
+                sum+=carry;
+            }
             ListNode*temp=new ListNode(sum%10);
             carry=sum/10;
-            temp->next=head;
-            head=temp;
-            l1=l1->next;
-            l2=l2->next;
-        }
-        while(l1)
-        {
-            int sum=l1->val+carry;
-            ListNode*temp=new ListNode(sum%10);
-            temp->next=head;
-            head=temp;
-            carry=sum/10;
-            l1=l1->next;
-        }
-        while(l2)
-        {
-            int sum=l2->val+carry;
-            ListNode*temp=new ListNode(sum%10);
-            temp->next=head;
-            head=temp;
-            carry=sum/10;
-            l2=l2->next;
-        }
-        if(carry!=0)
-        {
-            ListNode*temp=new ListNode(carry);
             temp->next=head;
             head=temp;
         }
