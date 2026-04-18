@@ -14,17 +14,17 @@ public:
         ListNode*Dummy=new ListNode();
         Dummy->next=head;
         ListNode*prev=Dummy;
-        for(int i=1;i<left;i++)
+        for(int i=1;i<=left-1;i++)
         {
-           prev=prev->next;
+            prev=prev->next;
         }
         ListNode*curr=prev->next;
         for(int i=1;i<=right-left;i++)
         {
-           ListNode*forward=curr->next;
-           curr->next=forward->next;
-           forward->next=prev->next;
-           prev->next=forward;
+            ListNode*forward=curr->next;
+            curr->next=forward->next;
+            forward->next=prev->next;
+            prev->next=forward;
         }
         return Dummy->next;
     }
