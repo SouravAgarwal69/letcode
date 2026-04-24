@@ -7,16 +7,16 @@ public:
         for(int i=0;i<nums.size();i++)
         {
             sum+=nums[i];
-            if(mp.find(sum % k)!=mp.end())
+            if(mp.find(sum%k)!=mp.end())
             {
-               if(i-mp[sum%k]>1)
-               {
-                return true;
-               }
+                if(i-mp[sum%k]>1)
+                {
+                    return true;
+                }
             }
             else
             {
-                mp[sum % k]=i;
+                mp[sum%k]=i;
             }
         }
         return false;
