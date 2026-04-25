@@ -1,22 +1,14 @@
 class Solution {
 public:
     bool isToeplitzMatrix(vector<vector<int>>& matrix) {
-        unordered_map<int,int>mp;
-        for(int i=0;i<matrix.size();i++)
+        for(int i=1;i<matrix.size();i++)
         {
-            for(int j=0;j<matrix[0].size();j++)
+            for(int j=1;j<matrix[0].size();j++)
             {
-                if(mp.find(j-i)!=mp.end())
+                if(matrix[i][j]!=matrix[i-1][j-1])
                 {
-                    if(mp[j-i]!=matrix[i][j])
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-                else
-                    {
-                        mp[j-i]=matrix[i][j];
-                    }
             }
         }
         return true;
