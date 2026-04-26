@@ -3,22 +3,17 @@ public:
     vector<int> answerQueries(vector<int>& nums, vector<int>& queries) {
         vector<int>result;
         sort(nums.begin(),nums.end());
+        vector<int>temp(nums.size());
+        temp[0]=nums[0];
+        for(int i=1;i<nums.size();i++)
+        {
+            temp[i]=temp[i-1]+nums[i];
+        }
+        
         for(int i=0;i<queries.size();i++)
         {
-            int cnt=0,target=queries[i];
-            for(int j=0;j<nums.size();j++)
-            {
-                  if(target>=nums[j])
-                  {
-                     cnt++;
-                     target-=nums[j];
-                  }
-                  else
-                  {
-                    break;
-                  }
-            }
-            result.push_back(cnt);
+          int  idx=upper_bound(temp.begin(),temp.end(),queries[i])-temp.begin();
+            result.push_back(idx);
         }
         return result;
     }
