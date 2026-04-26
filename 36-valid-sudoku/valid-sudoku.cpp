@@ -1,78 +1,25 @@
 class Solution {
 public:
-   bool traversal(vector<vector<char>>&board,int sr,int er,int sc,int ec)
-   {
-           unordered_set<char>st;
-       for(int i=sr;i<=er;i++)
-       {
-        for(int j=sc;j<=ec;j++)
-        {
-            if(board[i][j]=='.')
-            {
-                continue;
-            }
-            if(st.find(board[i][j])!=st.end())
-            {
-                return false;
-            }
-            else
-            {
-                st.insert(board[i][j]);
-            }
-        }
-       }
-       return true;
-   }
     bool isValidSudoku(vector<vector<char>>& board) {
-       
-        for(int row=0;row<9;row++)
+        unordered_set<string>st;
+        for(int i=0;i<9;i++)
         {
-              unordered_set<char>st;
-            for(int col=0;col<9;col++)
+            for(int j=0;j<9;j++)
             {
-                if(board[row][col]=='.')
+                if(board[i][j]=='.')
                 {
                     continue;
                 }
-                if(st.find(board[row][col])!=st.end())
+                string row="row"+string(1,board[i][j])+to_string(i);
+                string col="col"+string(1,board[i][j])+to_string(j);
+                string box="box"+string(1,board[i][j])+to_string(i/3)+to_string(j/3);
+                if(st.find(row)!=st.end() || st.find(col)!=st.end() || st.find(box)!=st.end())
                 {
                     return false;
                 }
-                else
-                {
-                    st.insert(board[row][col]);
-                }
-            }
-        }
-        for(int col=0;col<9;col++)
-        {
-            unordered_set<char>st;
-            for(int row=0;row<9;row++)
-            {
-                if(board[row][col]=='.')
-                {
-                    continue;
-                }
-                if(st.find(board[row][col])!=st.end())
-                {
-                    return false;
-                }
-                else
-                {
-                    st.insert(board[row][col]);
-                }
-            }
-        }
-        for(int row=0;row<9;row+=3)
-        {
-            int er=row+2;
-            for(int col=0;col<9;col+=3)
-            {
-                int ec=col+2;
-                if(!traversal(board,row,er,col,ec))
-                {
-                    return false;
-                }
+                st.insert(row);
+                st.insert(col);
+                st.insert(box);
             }
         }
         return true;
