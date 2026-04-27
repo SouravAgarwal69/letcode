@@ -7,22 +7,22 @@ public:
         {
             for(int j=0;j<mat[0].size();j++)
             {
-                mp[i+j].push_back(mat[i][j]);
+                 mp[i+j].push_back(mat[i][j]);
             }
         }
         bool flip=true;
         for(auto it=mp.begin();it!=mp.end();it++)
         {
-            vector<int>temp=it->second;
-            if(flip)
-            {
+             vector<int>temp=it->second;
+             if(flip)
+             {
                 reverse(temp.begin(),temp.end());
-            }
-            for(int i=0;i<temp.size();i++)
-            {
+             }
+             for(int i=0;i<temp.size();i++)
+             {
                 result.push_back(temp[i]);
-            }
-            flip=!flip;
+             }
+             flip=!flip;
         }
         return result;
     }
