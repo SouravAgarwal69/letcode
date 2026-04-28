@@ -1,13 +1,13 @@
 class Solution {
 public:
     vector<int> findOriginalArray(vector<int>& changed) {
+        vector<int>result;
         if(changed.size()%2!=0)
         {
             return {};
         }
-        sort(changed.begin(),changed.end());
-        vector<int>result;
         unordered_map<int,int>mp;
+        sort(changed.begin(),changed.end());
         for(int i=0;i<changed.size();i++)
         {
             mp[changed[i]]++;
@@ -18,15 +18,15 @@ public:
             {
                 if(mp[changed[i]*2]>0)
                 {
-                    result.push_back(changed[i]);
                     mp[changed[i]]--;
                     mp[changed[i]*2]--;
+                    result.push_back(changed[i]);
                 }
                 else
                 {
-                     return {};
+                    return {};
                 }
-            } 
+            }
         }
         return result;
     }
