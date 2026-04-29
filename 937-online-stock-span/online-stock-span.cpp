@@ -1,6 +1,6 @@
 class StockSpanner {
 public:
-    stack<pair<int,int>>st;
+  stack<pair<int,int>>st;
     StockSpanner() {
         
     }
@@ -9,8 +9,8 @@ public:
         int cnt=1;
         while(!st.empty() && st.top().first<=price)
         {
-              cnt+=st.top().second;
-              st.pop();
+            cnt+=st.top().second;
+            st.pop();
         }
         st.push(make_pair(price,cnt));
         return cnt;
