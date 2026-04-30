@@ -7,27 +7,26 @@ public:
     
     void addNum(int value) {
         int left=value,right=value;
-        auto it=mp.upper_bound(value);
-        if(it!=mp.begin())
+        auto just_greater=mp.upper_bound(value);
+        if(just_greater!=mp.begin())
         {
-            auto prev=it;
-            --prev;
-            if(prev->second >=value)
+            auto prev1=prev(just_greater);
+            if(value<=prev1->second)
             {
                 return;
             }
-            if(prev->second+1==value)
+            if(prev1->second+1==value)
             {
-                left=prev->first;
-                mp.erase(prev);
+                left=prev1->first;
+                mp.erase(prev1);
             }
         }
-        if(it!=mp.end() && it->first==value+1)
+        if(just_greater!=mp.end() && just_greater->first==value+1)
         {
-           right=it->second;
-           mp.erase(it);
+           right=just_greater->second;
+           mp.erase(just_greater);
         }
-        mp[left]=right;
+         mp[left]=right;
     }
     
     vector<vector<int>> getIntervals() {
