@@ -1,33 +1,43 @@
 class SummaryRanges {
 public:
-    unordered_set<int>st;
+    map<int,int>mp;
     SummaryRanges() {
-        st.clear();
+        mp.clear();
     }
     
     void addNum(int value) {
-        st.insert(value);
+        int left=value,right=value;
+        auto it=mp.upper_bound(value);
+        if(it!=mp.begin())
+        {
+            auto prev=it;
+            --prev;
+            if(prev->second >=value)
+            {
+                return;
+            }
+            if(prev->second+1==value)
+            {
+                left=prev->first;
+                mp.erase(prev);
+            }
+        }
+        if(it!=mp.end() && it->first==value+1)
+        {
+           right=it->second;
+           mp.erase(it);
+        }
+        mp[left]=right;
     }
     
     vector<vector<int>> getIntervals() {
-        vector<vector<int>>res;
-       vector<int>temp(st.begin(),st.end());
-       sort(temp.begin(),temp.end());
-       int i=0,n=temp.size();
-      while(i<temp.size())
-       {
-          int left=temp[i];
-          while(i<n-1 && temp[i]+1==temp[i+1])
-          {
-             i++;
-          }
-          int right=temp[i];
-          res.push_back({left,right});
-          i++;
-       }
-       return res;
+        vector<vector<int>>result;
+        for(auto it=mp.begin();it!=mp.end();it++)
+        {
+            result.push_back({it->first,it->second});
+        }
+        return result;
     }
-    
 };
 
 /**
