@@ -1,18 +1,28 @@
 class Solution {
 public:
     int singleNumber(vector<int>& nums) {
-        unordered_map<int,int>mp;
+        int result=0;
+        for(int k=0;k<32;k++)
+        {
+          int temp=1<<k;
+          int cntZero=0,cntOne=0;
         for(int i=0;i<nums.size();i++)
         {
-            mp[nums[i]]++;
+              int bit= (nums[i] & temp);
+              if(bit==0)
+              {
+                 cntZero++;
+              }
+             else
+              {
+                cntOne++;
+              }
         }
-        for(auto it=mp.begin();it!=mp.end();it++)
-        {
-            if(it->second==1)
-            {
-                return it->first;
-            }
+          if(cntOne%2!=0)
+          {
+             result=result | temp;
+          }
         }
-        return -1;
+        return result;
     }
 };
