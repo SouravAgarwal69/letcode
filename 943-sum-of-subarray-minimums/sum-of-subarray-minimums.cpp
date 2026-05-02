@@ -1,14 +1,14 @@
 class Solution {
 public:
-   int mod=1e9+7;
-    void findNSL(vector<int>&NSL,vector<int>&arr)
+    int MOD=1e9+7;
+    void findNSE(vector<int>&NSL,vector<int>&arr)
     {
-        stack<int>st;
-        for(int i=0;i<arr.size();i++)
-        {
-            while(!st.empty() && arr[st.top()]>=arr[i])
+         stack<int>st;
+         for(int i=0;i<arr.size();i++)
+         {
+            while(!st.empty() && arr[st.top()]>arr[i])
             {
-               st.pop();
+                st.pop();
             }
             if(st.empty())
             {
@@ -19,20 +19,21 @@ public:
                 NSL[i]=st.top();
             }
             st.push(i);
-        }
+         }
     }
     void findNSR(vector<int>&NSR,vector<int>&arr)
     {
         stack<int>st;
-        for(int i=arr.size()-1;i>=0;i--)
+        int n=arr.size();
+        for(int i=n-1;i>=0;i--)
         {
-            while(!st.empty() && arr[st.top()]>arr[i])
+            while(!st.empty() && arr[st.top()]>=arr[i])
             {
                 st.pop();
             }
             if(st.empty())
             {
-                NSR[i]=arr.size();
+                NSR[i]=n;
             }
             else
             {
@@ -42,17 +43,17 @@ public:
         }
     }
     int sumSubarrayMins(vector<int>& arr) {
-        long long total=0;
+        int total=0;
         vector<int>NSL(arr.size());
         vector<int>NSR(arr.size());
-        findNSL(NSL,arr);
+        findNSE(NSL,arr);
         findNSR(NSR,arr);
         for(int i=0;i<arr.size();i++)
         {
-            int d1=i-NSL[i];
-            int d2=NSR[i]-i;
-            total=total+(1LL*d1*d2*arr[i])%mod;
+            long long left=i-NSL[i];
+            long long right=NSR[i]-i;
+            total=(total+(left*right%MOD)*arr[i]%MOD)%MOD;
         }
-        return total%mod;
+        return total;
     }
 };
