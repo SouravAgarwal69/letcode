@@ -4,16 +4,8 @@ public:
         vector<int>result;
         for(int i=0;i<=n;i++)
         {
-            int cnt=0;
-            for(int k=0;k<32;k++)
-            {
-                int temp=1<<k;
-                if((temp & i)!=0)
-                {
-                   cnt++;
-                }
-            }
-            result.push_back(cnt);
+            int val=__builtin_popcount(i);
+            result.push_back(val);
         }
         return result;
     }
