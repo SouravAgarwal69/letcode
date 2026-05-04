@@ -4,8 +4,12 @@ public:
         int cnt=0;
         while(n>0)
         {
-            n=(n-1)&n;
-            cnt++;
+            int temp=n&1;
+            if(temp==1)
+            {
+                 cnt++;
+            }
+            n=n>>1;
         }
         return cnt;
     }
