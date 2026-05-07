@@ -1,21 +1,21 @@
 class Solution {
 public:
     vector<string> buildArray(vector<int>& target, int n) {
-        int i=1,j=0;
-        vector<string>temp;
-        while(i<=n && j<target.size())
+        vector<string>result;
+        int i=0,k=1;
+        while(i<target.size() && k<=n)
         {
-            temp.push_back("Push");
-            if(i==target[j])
+            result.push_back("Push");
+            if(target[i]!=k)
             {
-                j++;
+                result.push_back("Pop");
             }
             else
             {
-                temp.push_back("Pop");
+                i++;
             }
-            i++;
+            k++;
         }
-        return temp;
+        return result;
     }
 };
