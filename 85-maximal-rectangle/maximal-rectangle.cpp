@@ -1,76 +1,70 @@
 class Solution {
 public:
-    void findNSE(vector<int>&NSE,stack<int>st,vector<int>&height)
+    int find(vector<int>&col)
     {
-            for(int i=height.size()-1;i>=0;i--)
-            {
-                while(!st.empty() && height[i]<=height[st.top()])
-                {
-                    st.pop();
-                }
-                if(st.empty())
-                {
-                    NSE[i]=height.size();
-                }
-                else
-                {
-                    NSE[i]=st.top();
-                }
-                st.push(i);
-            }
-    }
-    void findPSE(vector<int>&PSE,stack<int>st,vector<int>&height)
-    {
-       for(int i=0;i<height.size();i++)
-       {
-         while(!st.empty() && height[i]<=height[st.top()])
-         {
-            st.pop();
-         }
-         if(st.empty())
-         {
-            PSE[i]=-1;
-         }
-         else
-         {
-            PSE[i]=st.top();
-         }
-         st.push(i);
-       }
-    }
-    int findMaxArea(vector<int>&height)
-    {
-        int maxArea=0;
-        vector<int>NSE(height.size());
-        vector<int>PSE(height.size());
         stack<int>st;
-        findNSE(NSE,st,height);
-        findPSE(PSE,st,height);
-        for(int i=0;i<height.size();i++)
+        vector<int>left(col.size());
+        vector<int>right(col.size());
+        for(int i=0;i<col.size();i++)
         {
-            int area=height[i]*(NSE[i]-PSE[i]-1);
-            maxArea=max(maxArea,area);
+            while(!st.empty() && col[st.top()]>=col[i])
+            {
+                st.pop();
+            }
+            if(st.empty())
+            {
+                left[i]=-1;
+            }
+            else
+            {
+                left[i]=st.top();
+            }
+            st.push(i);
         }
-        return maxArea;
+        stack<int>st2;
+        for(int i=col.size()-1;i>=0;i--)
+        {
+            while(!st2.empty() && col[st2.top()]>=col[i])
+            {
+                st2.pop();
+            }
+            if(st2.empty())
+            {
+                right[i]=col.size();
+            }
+            else
+            {
+                right[i]=st2.top();
+            }
+            st2.push(i);
+        }
+        int area=0;
+        for(int i=0;i<col.size();i++)
+        {
+           area=max(area,(right[i]-left[i]-1)*col[i]);
+        }
+        return area;
     }
     int maximalRectangle(vector<vector<char>>& matrix) {
-        int maxArea=0;
-        vector<int>height(matrix[0].size());
-        for(int i=0;i<matrix.size();i++)
+        int m=matrix.size(),n=matrix[0].size();
+        vector<vector<int>>reactangle(m,vector<int>(n));
+        vector<int>col(n,0);
+        int area=0;
+        for(int i=0;i<m;i++)
         {
-            for(int j=0;j<matrix[i].size();j++)
+            for(int j=0;j<n;j++)
             {
                 if(matrix[i][j]=='0')
                 {
-                    height[j]=0;
+                    col[j]=0;
                 }
                 else
                 {
-                    height[j]+=1;
+                    col[j]+=1;
                 }
             }
-            maxArea=max(findMaxArea(height),maxArea);
+           area=max(area,find(col));
         }
-        return maxArea;
+        return area;
     }
 };
