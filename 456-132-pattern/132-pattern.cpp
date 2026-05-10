@@ -1,20 +1,20 @@
 class Solution {
 public:
     bool find132pattern(vector<int>& nums) {
-        int possibleTwo=INT_MIN;
-        stack<int>possibleThree;
+        stack<int>num3;
+        int num2=INT_MIN;
         for(int i=nums.size()-1;i>=0;i--)
         {
-            if(possibleTwo>nums[i])
+            if(nums[i]<num2)
             {
                 return true;
             }
-            while(!possibleThree.empty() && possibleThree.top()<nums[i])
+            while(!num3.empty() && num3.top()<nums[i])
             {
-                possibleTwo=possibleThree.top();
-                possibleThree.pop();
+                num2=num3.top();
+                num3.pop();
             }
-             possibleThree.push(nums[i]);
+            num3.push(nums[i]);
         }
         return false;
     }
