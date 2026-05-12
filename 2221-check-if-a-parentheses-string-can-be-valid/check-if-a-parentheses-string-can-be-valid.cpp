@@ -5,45 +5,33 @@ public:
         {
             return false;
         }
-       int open=0,close=0;
-       for(int i=0;i<s.size();i++)
-       {
-           if(locked[i]=='0')
-           {
-               open++;
-           }
-           else if(s[i]=='(')
-           {
-            open++;
-           }
-           else if(s[i]==')')
-           {
-               open--;
-               if(open<0)
-               {
-                  return false;
-               }
-           }
-       } 
-       for(int i=s.size()-1;i>=0;i--)
-       {
-          if(locked[i]=='0')
-          {
-              close++;
-          }
-          else if(s[i]==')')
-          {
-             close++;
-          }
-          else if(s[i]=='(')
-          {
-             close--;
-             if(close<0)
-             {
-                 return false;
-             }
-          }
-       }
-       return true;
+        stack<int>rigid;
+        stack<int>flexible;
+        for (int i = 0; i < s.size(); i++) {
+            if (locked[i] == '0') {
+                flexible.push(i);
+            } else {
+                if (s[i] == '(') {
+                    rigid.push(i);
+                } else if (s[i] == ')') {
+                    if (!rigid.empty()) {
+                        rigid.pop();
+                    } else if (!flexible.empty()) {
+                        flexible.pop();
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        }
+        while (!flexible.empty() && !rigid.empty()) {
+            if (flexible.top() > rigid.top()) {
+                rigid.pop();
+                flexible.pop();
+            } else {
+                return false;
+            }
+        }
+        return rigid.empty();
     }
 };
