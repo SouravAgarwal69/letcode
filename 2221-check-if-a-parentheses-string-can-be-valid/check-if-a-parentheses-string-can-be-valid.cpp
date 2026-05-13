@@ -5,33 +5,37 @@ public:
         {
             return false;
         }
-        stack<int>rigid;
-        stack<int>flexible;
-        for (int i = 0; i < s.size(); i++) {
-            if (locked[i] == '0') {
-                flexible.push(i);
-            } else {
-                if (s[i] == '(') {
-                    rigid.push(i);
-                } else if (s[i] == ')') {
-                    if (!rigid.empty()) {
-                        rigid.pop();
-                    } else if (!flexible.empty()) {
-                        flexible.pop();
-                    } else {
-                        return false;
-                    }
-                }
+        int open=0,close=0;
+        for(int i=0;i<s.size();i++)
+        {
+            if(s[i]=='(' || locked[i]=='0')
+            {
+                open++;
             }
-        }
-        while (!flexible.empty() && !rigid.empty()) {
-            if (flexible.top() > rigid.top()) {
-                rigid.pop();
-                flexible.pop();
-            } else {
+            else 
+            {
+                open--;
+            }
+            if(open<0)
+            {
                 return false;
             }
         }
-        return rigid.empty();
+        for(int i=s.size()-1;i>=0;i--)
+        {
+            if(s[i]==')' || locked[i]=='0')
+            {
+                close++;
+            }
+            else
+            {
+                close--;
+            }
+            if(close<0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 };
