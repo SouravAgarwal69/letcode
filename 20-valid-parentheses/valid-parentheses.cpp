@@ -4,7 +4,7 @@ public:
         stack<char>st;
         for(int i=0;i<s.size();i++)
         {
-            if(!st.empty() && ((s[i]==')' && st.top()=='(') || (s[i]=='}' && st.top()=='{' ) || (s[i]==']' && st.top()=='[') ))
+            if(!st.empty() && ((st.top()=='(' && s[i]==')') || (st.top()=='{' && s[i]=='}') || (st.top()=='[' && s[i]==']')))
             {
                 st.pop();
             }
