@@ -5,12 +5,9 @@ public:
         for(int i=0;i<s.size();i++)
         {
             result.push_back(s[i]);
-            if(result.size()>=part.size())
-            {
-            if(result.substr(result.size()-part.size())==part)
+            if(result.size()>=part.size() && result.substr(result.size()-part.size())==part)
             {
                 result.erase(result.size()-part.size());
-            }
             }
         }
         return result;
