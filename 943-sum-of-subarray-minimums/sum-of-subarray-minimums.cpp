@@ -1,7 +1,26 @@
 class Solution {
 public:
-    int MOD=1e9+7;
-    void findNSE(vector<int>&NSL,vector<int>&arr)
+    void findNSE(vector<int>&arr,vector<int>&NSE)
+    {
+          stack<int>st;
+          for(int i=arr.size()-1;i>=0;i--)
+          {
+             while(!st.empty() && arr[st.top()]>=arr[i])
+             {
+                st.pop();
+             } 
+             if(st.empty())
+             {
+                NSE[i]=arr.size();
+             }
+             else
+             {
+                NSE[i]=st.top();
+             }
+             st.push(i);
+          }
+    }
+    void findPSE(vector<int>&arr,vector<int>&PSE)
     {
          stack<int>st;
          for(int i=0;i<arr.size();i++)
@@ -12,47 +31,27 @@ public:
             }
             if(st.empty())
             {
-                NSL[i]=-1;
+                PSE[i]=-1;
             }
             else
             {
-                NSL[i]=st.top();
+                PSE[i]=st.top();
             }
             st.push(i);
          }
     }
-    void findNSR(vector<int>&NSR,vector<int>&arr)
-    {
-        stack<int>st;
-        int n=arr.size();
-        for(int i=n-1;i>=0;i--)
-        {
-            while(!st.empty() && arr[st.top()]>=arr[i])
-            {
-                st.pop();
-            }
-            if(st.empty())
-            {
-                NSR[i]=n;
-            }
-            else
-            {
-                NSR[i]=st.top();
-            }
-            st.push(i);
-        }
-    }
     int sumSubarrayMins(vector<int>& arr) {
+        int mod=1e9+7;
+        vector<int>NSE(arr.size());
+        vector<int>PSE(arr.size());
+        findNSE(arr,NSE);
+        findPSE(arr,PSE);
         int total=0;
-        vector<int>NSL(arr.size());
-        vector<int>NSR(arr.size());
-        findNSE(NSL,arr);
-        findNSR(NSR,arr);
         for(int i=0;i<arr.size();i++)
         {
-            long long left=i-NSL[i];
-            long long right=NSR[i]-i;
-            total=(total+(left*right%MOD)*arr[i]%MOD)%MOD;
+           long long left=i-PSE[i];
+           long long right=NSE[i]-i;
+           total=(total+(left*right % mod)*arr[i] % mod) % mod;
         }
         return total;
     }
