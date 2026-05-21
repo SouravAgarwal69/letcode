@@ -2,34 +2,23 @@ class Solution {
 public:
     string reverseParentheses(string s) {
         string result;
-        stack<int>st;
-        vector<int>store(s.size());
+        vector<int>index;
         for(int i=0;i<s.size();i++)
         {
             if(s[i]=='(')
             {
-                st.push(i);
+                index.push_back(result.size());
             }
-            else if(s[i]==')')
+           else if(s[i]==')')
             {
-                store[i]=st.top();
-                store[st.top()]=i;
-                st.pop();
+                reverse(result.begin()+index.back(),result.end());
+                index.pop_back();
+            }
+            else
+            {
+               result.push_back(s[i]);   
             }
         }
-       int direction=1;
-       for(int i=0;i<s.size();i+=direction)
-       {
-           if(s[i]=='(' || s[i]==')')
-           {
-                 i=store[i];
-                 direction=-1*direction;
-           }
-           else
-           {
-               result.push_back(s[i]);
-           }
-       }
-       return result;
+        return result;
     }
 };
