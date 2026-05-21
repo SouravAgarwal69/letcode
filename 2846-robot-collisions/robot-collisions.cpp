@@ -2,53 +2,54 @@ class Solution {
 public:
     vector<int> survivedRobotsHealths(vector<int>& positions, vector<int>& healths, string directions) {
         vector<int>result;
-        vector<int>temp;
-        int n=positions.size();
-        vector<int>index(n);
+        vector<int>index(positions.size());
         iota(index.begin(),index.end(),0);
         sort(index.begin(),index.end(),[&](int i,int j)
         {
             return positions[i]<positions[j];
         });
-        for(int i=0;i<n;i++)
+        stack<int>st;
+        for(int i=0;i<index.size();i++)
         {
             bool collision=false;
-            while(!result.empty() && directions[result.back()]=='R' && directions[index[i]]=='L')
+            while(!st.empty() && directions[st.top()]=='R' && directions[index[i]]=='L')
             {
-                if(healths[result.back()]==healths[index[i]])
+                if(healths[st.top()]==healths[index[i]])
                 {
-                    healths[result.back()]=0;
+                    
+                    healths[st.top()]=0;
                     healths[index[i]]=0;
-                    result.pop_back();
+                    st.pop();
                     collision=true;
                     break;
                 }
-                else if(healths[result.back()]>healths[index[i]])
+                else if(healths[st.top()]>healths[index[i]])
                 {
-                    healths[index[i]]=0;
-                    healths[result.back()]--;
                     collision=true;
+                    healths[index[i]]=0;
+                    healths[st.top()]-=1;
                     break;
                 }
                 else
                 {
-                    healths[index[i]]--;
-                    healths[result.back()]=0;
-                    result.pop_back();
+                    healths[st.top()]=0;
+                    healths[index[i]]-=1;
+                      st.pop();
                 }
             }
             if(!collision)
             {
-                result.push_back(index[i]);
+                st.push(index[i]);
             }
         }
-        for(int i=0;i<n;i++)
+        for(int i=0;i<healths.size();i++)
         {
-             if(healths[i]!=0)
-             {
-                temp.push_back(healths[i]);
-             }
+            if(healths[i]==0)
+            {
+                continue;
+            }
+            result.push_back(healths[i]);
         }
-        return temp;
+        return result;
     }
 };
