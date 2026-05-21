@@ -1,37 +1,37 @@
 class Solution {
 public:
     int maximumGain(string s, int x, int y) {
-        int total=0;
-        string target=x>y?"ab":"ba";
-        int val=x>y?x:y;
-        string result;
+        string result1,result2;
+        string temp1=x>y?"ab":"ba";
+        int val1=x>y?x:y;
+        int val2=x>y?y:x;
+        string temp2=x>y?"ba":"ab";
+        int points=0;
         for(int i=0;i<s.size();i++)
         {
-            if(!result.empty() && result.back()==target[0] && s[i]==target[1])
+            if(!result1.empty() && result1.back()==temp1[0] && s[i]==temp1[1])
             {
-                result.pop_back();
-                total+=val;
+                result1.pop_back();
+                points+=val1;
             }
             else
             {
-                result.push_back(s[i]);
+                result1.push_back(s[i]);
             }
         }
-        target=x>y?"ba":"ab";
-        val=min(x,y);
-        string temp;
-        for(int i=0;i<result.size();i++)
+        for(int i=0;i<result1.size();i++)
         {
-            if(!temp.empty() && temp.back()==target[0] && result[i]==target[1])
+            if(!result2.empty() && result2.back()==temp2[0] && result1[i]==temp2[1])
             {
-                temp.pop_back();
-                total+=val;
+                result2.pop_back();
+                points+=val2;
             }
             else
             {
-                temp.push_back(result[i]);
+                result2.push_back(result1[i]);
             }
         }
-        return total;
-    }
+        return points;
+    };
+
 };
