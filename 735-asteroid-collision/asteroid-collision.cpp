@@ -5,7 +5,7 @@ public:
         for(int i=0;i<asteroids.size();i++)
         {
             bool collision=false;
-            while(!result.empty() && asteroids[i]<0 && result.back()>0)
+            while(!result.empty() && asteroids[i]<0 && result.back()>0) 
             {
                 if(result.back()==abs(asteroids[i]))
                 {
@@ -13,14 +13,14 @@ public:
                     collision=true;
                     break;
                 }
-                else if(result.back()<abs(asteroids[i]))
+                else if(abs(result.back())>abs(asteroids[i]))
                 {
-                    result.pop_back();
+                      collision=true;
+                      break;
                 }
                 else
                 {
-                    collision=true;
-                    break;
+                    result.pop_back();
                 }
             }
             if(!collision)
