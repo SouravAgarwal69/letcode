@@ -15,7 +15,7 @@ public:
             }
             result.push_back(num[i]);
         }
-        while(k>0 && !result.empty())
+        while(!result.empty() && k>0)
         {
             result.pop_back();
             k--;
