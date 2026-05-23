@@ -1,20 +1,31 @@
 class Solution {
 public:
     int minimumDeletions(string s) {
+        vector<int>rightA(s.size());
+        vector<int>leftB(s.size());
         int cnt=0;
-        string result;
         for(int i=0;i<s.size();i++)
         {
-            if(!result.empty() && result.back()=='b' && s[i]=='a')
+            leftB[i]=cnt;
+            if(s[i]=='b')
             {
-                result.pop_back();
                 cnt++;
             }
-            else
+        }
+        cnt=0;
+        for(int i=s.size()-1;i>=0;i--)
+        {
+            rightA[i]=cnt;
+            if(s[i]=='a')
             {
-                result.push_back(s[i]);
+                cnt++;
             }
         }
-        return cnt;
+        int result=s.size();
+        for(int i=0;i<s.size();i++)
+        {
+            result=min(result,leftB[i]+rightA[i]);
+        }
+        return result;
     }
 };
