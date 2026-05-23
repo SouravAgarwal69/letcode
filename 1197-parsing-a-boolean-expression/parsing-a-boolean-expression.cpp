@@ -1,61 +1,57 @@
 class Solution {
 public:
-    char find(char op,string temp)
+    char find(char op,string expression)
     {
-        if(op=='|')
+        if(op=='&')
         {
-            for(int i=0;i<temp.size();i++)
+            for(int i=0;i<expression.size();i++)
             {
-                if(temp[i]=='t')
-                {
-                    return 't';
-                }
-            }
-           return 'f';
-        }
-        else if(op=='&')
-        {
-            for(int j=0;j<temp.size();j++)
-            {
-                if(temp[j]=='f')
+                if(expression[i]=='f')
                 {
                     return 'f';
                 }
             }
             return 't';
         }
-        else
+        else if(op=='|')
         {
-           return temp.back()=='t'?'f':'t';
-        }
-    }
-    bool parseBoolExpr(string expression) {
-            stack<char>st;
             for(int i=0;i<expression.size();i++)
             {
-                if(expression[i]==',')
+                if(expression[i]=='t')
                 {
-                   continue;
-                }
-                else if(expression[i]==')')
-                {
-                    string temp;
-                    while(!st.empty() && st.top()!='(')
-                    {
-                       temp.push_back(st.top());
-                       st.pop();
-                    }
-                    st.pop();
-                    char op=st.top();
-                    st.pop();
-                    char ch=find(op,temp);
-                    st.push(ch);
-                }
-                else
-                {
-                    st.push(expression[i]);
+                    return 't';
                 }
             }
-            return st.top()=='t'?true:false;
+            return 'f';
+        }
+        return expression.back()=='t'?'f':'t';
+    }
+    bool parseBoolExpr(string expression) {
+        stack<char>st;
+        for(int i=0;i<expression.size();i++)
+        {
+            if(expression[i]==',')
+            {
+                continue;
+            }
+            if(expression[i]==')')
+            {
+                string expression;
+                while(  st.top()!='(')
+                {
+                    expression.push_back(st.top());
+                    st.pop();
+                }
+                st.pop();
+                char op=st.top();
+                st.pop();
+                st.push(find(op,expression));
+            }
+            else
+            {
+                st.push(expression[i]);
+            }
+        }
+        return st.top()=='t';
     }
 };
