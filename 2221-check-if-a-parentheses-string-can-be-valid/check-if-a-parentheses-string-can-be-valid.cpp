@@ -1,18 +1,18 @@
 class Solution {
 public:
     bool canBeValid(string s, string locked) {
+        int open=0,close=0;
         if(s.size()%2!=0)
         {
             return false;
         }
-        int open=0,close=0;
         for(int i=0;i<s.size();i++)
         {
             if(s[i]=='(' || locked[i]=='0')
             {
                 open++;
             }
-            else 
+            else
             {
                 open--;
             }
