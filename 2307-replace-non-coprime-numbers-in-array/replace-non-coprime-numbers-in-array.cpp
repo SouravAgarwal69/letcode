@@ -4,20 +4,21 @@ public:
         vector<int>result;
         for(int i=0;i<nums.size();i++)
         {
-            int first=nums[i];
+            int curr=nums[i];
             while(!result.empty())
             {
-                int second=result.back();
-                int gcd=__gcd(first,second);
-                if(gcd==1)
+                int gcd=__gcd(result.back(),curr);
+                if(gcd!=1)
+                {
+                     curr=(1LL*result.back()*curr)/gcd;
+                      result.pop_back();
+                }
+                else
                 {
                     break;
                 }
-                int lcm=(1LL*first*second)/gcd;
-                first=lcm;
-                result.pop_back();
             }
-            result.push_back(first);
+            result.push_back(curr);
         }
         return result;
     }
