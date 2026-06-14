@@ -1,28 +1,27 @@
 class Solution {
 public:
-    int find(int a)
+    int  fun(int a)
     {
-         int cnt=0;
-         while(a>0)
-         {
-             a= a &(a-1);
-            cnt++;
-         }
-         return cnt;
+          int cnt=0;
+          for(int k=0;k<32;k++)
+          {
+             int temp=1<<k;
+             if((temp & a)!=0)
+             {
+                 cnt++;
+             }
+          }
+          return cnt;
     }
     vector<int> sortByBits(vector<int>& arr) {
-        sort(arr.begin(),arr.end(),[&](int a,int b)
-        {
-            int cntA=find(a);
-            int cntB=find(b);
-            if(cntA==cntB)
-            {
-                return a<b;
-            }
-            else{
-                return cntA<cntB;
-            }
-        });
-       return arr;
+        sort(arr.begin(),arr.end(),[&](int a,int b){
+           if(fun(a)==fun(b))
+           {
+              return a<b;
+           }
+           return fun(a)<fun(b);
+        }
+        );
+        return arr;
     }
 };
