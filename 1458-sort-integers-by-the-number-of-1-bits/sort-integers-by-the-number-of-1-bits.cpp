@@ -3,13 +3,10 @@ public:
     int  fun(int a)
     {
           int cnt=0;
-          for(int k=0;k<32;k++)
+          while(a!=0)
           {
-             int temp=1<<k;
-             if((temp & a)!=0)
-             {
-                 cnt++;
-             }
+             a= a & (a-1);
+             cnt++;
           }
           return cnt;
     }
