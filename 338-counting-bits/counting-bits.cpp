@@ -4,14 +4,16 @@ public:
         vector<int>result(n+1);
         for(int i=0;i<=n;i++)
         {
-            if(i%2==0)
+            int cnt=0;
+            for(int k=0;k<32;k++)
             {
-                result[i]=result[i/2];
+               int temp=1<<k;
+                if((temp & i)!=0)
+                {
+                    cnt++;
+                }
             }
-            else
-            {
-                result[i]=result[i/2]+1;
-            }
+            result[i]=cnt;
         }
         return result;
     }
