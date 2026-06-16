@@ -2,14 +2,14 @@ class Solution {
 public:
     int hammingWeight(int n) {
         int cnt=0;
-        while(n>0)
+        for(int k=0;k<32;k++)
         {
-            int temp=n&1;
-            if(temp==1)
+            int temp=1<<k;
+            if((temp & n)!=0)
             {
-                 cnt++;
+                cnt++;
             }
-            n=n>>1;
+            
         }
         return cnt;
     }
