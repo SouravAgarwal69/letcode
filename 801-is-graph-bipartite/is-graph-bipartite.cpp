@@ -1,20 +1,24 @@
 class Solution {
 public:
-    bool dfs(vector<int>adj[],vector<int>&color,int node)
+    bool bfs(vector<int>adj[],vector<int>&color,int node)
     {
-        for(int i=0;i<adj[node].size();i++)
+        queue<int>q;
+        q.push(node);
+        while(!q.empty())
         {
-            if(color[adj[node][i]]==-1)
+            int node=q.front();
+            q.pop();
+            for(int i=0;i<adj[node].size();i++)
             {
-                color[adj[node][i]]=1-color[node];
-                if(!dfs(adj,color,adj[node][i]))
+                if(color[adj[node][i]]==-1)
+                {
+                    color[adj[node][i]]=1-color[node];
+                    q.push(adj[node][i]);
+                }
+                else if(color[adj[node][i]]==color[node])
                 {
                     return false;
                 }
-            }
-            else if(color[node]==color[adj[node][i]])
-            {
-                return false;
             }
         }
         return true;
@@ -33,7 +37,8 @@ public:
         {
             if(color[i]==-1)
             {
-                if(!dfs(adj,color,i))
+                color[i]=0;
+                if(!bfs(adj,color,i))
                 {
                     return false;
                 }
