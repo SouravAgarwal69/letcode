@@ -31,26 +31,18 @@ public:
         {
             parent[i]=i;
         }
-        vector<int>adj[n];
         for(int i=0;i<edges.size();i++)
         {
             int u=edges[i][0];
             int v=edges[i][1];
-            adj[u].push_back(v);
-        }
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<adj[i].size();j++)
-            {
-                int x=find(i,parent);
-                int y=find(adj[i][j],parent);
+            int x=find(u,parent);
+            int y=find(v,parent);
                 if(x==y)
                 {
                     continue;
                 }
                 Union(x,y,parent,rank);
             }
-        }
         unordered_map<int,int>mp;
         for(int i=0;i<n;i++)
         {
