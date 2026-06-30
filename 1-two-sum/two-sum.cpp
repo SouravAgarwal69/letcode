@@ -8,11 +8,8 @@ public:
             {
                 return {mp[target-nums[i]],i};
             }
-            else
-            {
-                mp[nums[i]]=i;
-            }
+            mp[nums[i]]=i;
         }
-        return {-1,-1};
+        return {};
     }
 };
