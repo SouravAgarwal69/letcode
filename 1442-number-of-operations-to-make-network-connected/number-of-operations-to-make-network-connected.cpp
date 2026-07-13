@@ -1,27 +1,14 @@
 class Solution {
 public:
-    int find(int node,vector<int>&parent)
+    void dfs(vector<int>adj[],vector<bool>&visited,int node)
     {
-        if(node==parent[node])
+        visited[node]=true;
+        for(int i=0;i<adj[node].size();i++)
         {
-            return node;
-        }
-        return parent[node]=find(parent[node],parent);
-    }
-    void Union(int x,int y,vector<int>&parent,vector<int>&rank)
-    {
-        if(rank[x]==rank[y])
-        {
-            parent[x]=y;
-            rank[y]++;
-        }
-        else if(rank[x]>rank[y])
-        {
-            parent[y]=x;
-        }
-        else
-        {
-            parent[x]=y;
+            if(!visited[adj[node][i]])
+            {
+                dfs(adj,visited,adj[node][i]);
+            }
         }
     }
     int makeConnected(int n, vector<vector<int>>& connections) {
@@ -29,24 +16,24 @@ public:
         {
             return -1;
         }
-        int component=n;
-        vector<int>parent(n);
-        vector<int>rank(n);
-        for(int i=0;i<n;i++)
-        {
-            parent[i]=i;
-        }
+        int cnt=0;
+        vector<int>adj[n];
         for(int i=0;i<connections.size();i++)
         {
-            int x=find(connections[i][0],parent);
-            int y=find(connections[i][1],parent);
-            if(x==y)
-            {
-                continue;
-            }
-            Union(x,y,parent,rank);
-            component--;
+            int u=connections[i][0];
+            int v=connections[i][1];
+            adj[u].push_back(v);
+            adj[v].push_back(u);
         }
-        return component-1;
+        vector<bool>visited(n,0);
+        for(int i=0;i<n;i++)
+        {
+            if(!visited[i])
+            {
+                cnt++;
+                dfs(adj,visited,i);
+            }
+        }
+        return cnt-1;
     }
 };
