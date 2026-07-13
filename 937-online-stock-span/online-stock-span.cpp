@@ -6,15 +6,14 @@ public:
     }
     
     int next(int price) {
-        int cnt=1;
-        while(!st.empty() && st.top().first<=price)
+        int span=1;
+        while(!st.empty() && st.top().second<=price)
         {
-             cnt+=st.top().second;
+            span+=st.top().first;
             st.pop();
-           
         }
-        st.push(make_pair(price,cnt));
-        return cnt;
+        st.push({span,price});
+        return span;
     }
 };
 
