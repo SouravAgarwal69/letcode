@@ -2,12 +2,20 @@ class Solution {
 public:
     void dfs(vector<int>adj[],vector<bool>&visited,int node)
     {
+        queue<int>q;
+        q.push(node);
         visited[node]=true;
-        for(int i=0;i<adj[node].size();i++)
+        while(!q.empty())
         {
-            if(!visited[adj[node][i]])
+            int node=q.front();
+            q.pop();
+            for(int i=0;i<adj[node].size();i++)
             {
-                dfs(adj,visited,adj[node][i]);
+                if(!visited[adj[node][i]])
+                {
+                    visited[adj[node][i]]=true;
+                    q.push(adj[node][i]);
+                }
             }
         }
     }
