@@ -1,57 +1,56 @@
 class Solution {
 public:
-    int find(int x,vector<int>&parent)
+    int find(int node,vector<int>&parent)
     {
-        if(x==parent[x])
+        if(node==parent[node])
         {
-            return x;
+            return node;
         }
-        return parent[x]=find(parent[x],parent);
+        return parent[node]=find(parent[node],parent);
     }
     void Union(int x,int y,vector<int>&parent,vector<int>&rank)
     {
-        int x_parent=find(x,parent);
-        int y_parent=find(y,parent);
-        if(x_parent==y_parent)
+        if(x==y)
         {
             return;
         }
-        if(rank[x_parent]==rank[y_parent])
+        if(rank[x]==rank[y])
         {
-            parent[x_parent]=y_parent;
-            rank[y_parent]++;
+            parent[x]=y;
+            rank[y]++;
         }
-        else if(rank[x_parent]>rank[y_parent])
-        {
-            parent[y_parent]=x_parent;
-        }
-        else
-        {
-            parent[x_parent]=y_parent;
-        }
+        else if(rank[x]>rank[y])
+         
+         {
+            parent[y]=x;
+         }
+         else
+         {
+            parent[x]=y;
+         }
     }
     bool equationsPossible(vector<string>& equations) {
         vector<int>parent(26);
-        vector<int>rank(26,0);
+        vector<int>rank(26);
         for(int i=0;i<26;i++)
         {
             parent[i]=i;
         }
         for(int i=0;i<equations.size();i++)
         {
-            string temp=equations[i];
-            if(temp[1]=='=')
+            if(equations[i][1]=='=')
             {
-                Union(temp[0]-'a',temp[3]-'a',parent,rank);
+                int x=find(equations[i][0]-'a',parent);
+                int y=find(equations[i][3]-'a',parent);
+                Union(x,y,parent,rank);
             }
         }
         for(int i=0;i<equations.size();i++)
         {
-            string temp=equations[i];
-            if(temp[1]=='!')
+            if(equations[i][1]=='!')
             {
-                int x=find(temp[0]-'a',parent);
-                int y=find(temp[3]-'a',parent);
+                int x=find(equations[i][0]-'a',parent);
+                int y=find(equations[i][3]-'a',parent);
                 if(x==y)
                 {
                     return false;
