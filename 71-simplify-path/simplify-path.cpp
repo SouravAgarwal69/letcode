@@ -6,21 +6,21 @@ public:
         stringstream ss(path);
         while(getline(ss,temp,'/'))
         {
-             if(temp=="." || temp=="")
-             {
+            if(temp=="." || temp=="")
+            {
                 continue;
-             }
-             else if(temp=="..")
-             {
+            }
+            else if(temp=="..")
+            {
                 if(!store.empty())
                 {
                     store.pop_back();
                 }
-             }
-             else
-             {
+            }
+            else
+            {
                 store.push_back(temp);
-             }
+            }
         }
         if(store.empty())
         {
@@ -29,7 +29,7 @@ public:
         string result;
         for(int i=0;i<store.size();i++)
         {
-             result=result+"/"+store[i];
+            result=result+"/"+store[i];
         }
         return result;
     }
