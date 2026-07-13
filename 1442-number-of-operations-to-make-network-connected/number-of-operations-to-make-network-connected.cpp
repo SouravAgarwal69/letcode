@@ -1,47 +1,52 @@
 class Solution {
 public:
-    void dfs(vector<int>adj[],vector<bool>&visited,int node)
+    void Union(int x,int y,vector<int>&parent,vector<int>&rank)
     {
-        queue<int>q;
-        q.push(node);
-        visited[node]=true;
-        while(!q.empty())
+        if(rank[x]==rank[y])
         {
-            int node=q.front();
-            q.pop();
-            for(int i=0;i<adj[node].size();i++)
-            {
-                if(!visited[adj[node][i]])
-                {
-                    visited[adj[node][i]]=true;
-                    q.push(adj[node][i]);
-                }
-            }
+            parent[x]=y;
+            rank[y]++;
         }
+        else if(rank[x]>rank[y])
+        {
+            parent[y]=x;
+        }
+        else 
+        {
+            parent[x]=y;
+        }
+    }
+    int find(int node,vector<int>&parent)
+    {
+        if(node==parent[node])
+        {
+            return node;
+        }
+        return parent[node]=find(parent[node],parent);
     }
     int makeConnected(int n, vector<vector<int>>& connections) {
         if(connections.size()<n-1)
         {
             return -1;
         }
-        int cnt=0;
-        vector<int>adj[n];
-        for(int i=0;i<connections.size();i++)
-        {
-            int u=connections[i][0];
-            int v=connections[i][1];
-            adj[u].push_back(v);
-            adj[v].push_back(u);
-        }
-        vector<bool>visited(n,0);
+        vector<int>parent(n);
+        vector<int>rank(n);
         for(int i=0;i<n;i++)
         {
-            if(!visited[i])
-            {
-                cnt++;
-                dfs(adj,visited,i);
-            }
+            parent[i]=i;
         }
-        return cnt-1;
+        int component=n;
+        for(int i=0;i<connections.size();i++)
+        {
+            int x=find(connections[i][0],parent);
+            int y=find(connections[i][1],parent);
+            if(x==y)
+            {
+                continue;
+            }
+            Union(x,y,parent,rank);
+            component--;
+        }
+          return component-1;
     }
 };
