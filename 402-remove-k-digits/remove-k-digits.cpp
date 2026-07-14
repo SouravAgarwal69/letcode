@@ -6,16 +6,16 @@ public:
         {
             while(!result.empty() && result.back()>num[i] && k>0)
             {
-                result.pop_back();
+               result.pop_back();
                 k--;
             }
             if(result.empty() && num[i]=='0')
             {
                 continue;
             }
-            result.push_back(num[i]);
+             result.push_back(num[i]);
         }
-        while(!result.empty() && k>0)
+        while(k>0 && !result.empty())
         {
             result.pop_back();
             k--;
