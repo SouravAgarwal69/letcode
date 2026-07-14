@@ -1,21 +1,23 @@
 class Solution {
 public:
     vector<int> fullBloomFlowers(vector<vector<int>>& flowers, vector<int>& people) {
-        vector<int>Born(flowers.size());
-        vector<int>Die(flowers.size());
-        vector<int>result;
+        int n=people.size();
+        int m=flowers.size();
+        vector<int>result(n);
+        vector<int>bloom(m);
+        vector<int>dead(m);
         for(int i=0;i<flowers.size();i++)
         {
-            Born[i]=flowers[i][0];
-            Die[i]=flowers[i][1];
+            bloom[i]=flowers[i][0];
+            dead[i]=flowers[i][1];
         }
-        sort(Born.begin(),Born.end());
-        sort(Die.begin(),Die.end());
-        for(int i=0;i<people.size();i++)
+        sort(bloom.begin(),bloom.end());
+        sort(dead.begin(),dead.end());
+        for(int i=0;i<n;i++)
         {
-            int total_start=upper_bound(Born.begin(),Born.end(),people[i])-Born.begin();
-            int total_end=lower_bound(Die.begin(),Die.end(),people[i])-Die.begin();
-            result.push_back(total_start-total_end);
+            int s=upper_bound(bloom.begin(),bloom.end(),people[i])-bloom.begin();
+            int e=lower_bound(dead.begin(),dead.end(),people[i])-dead.begin();
+            result[i]=s-e;
         }
         return result;
     }
