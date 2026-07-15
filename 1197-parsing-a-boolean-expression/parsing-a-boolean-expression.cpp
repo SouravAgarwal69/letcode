@@ -1,30 +1,30 @@
 class Solution {
 public:
-    char find(char op,string expression)
+    char calculate(string temp,char op)
     {
-        if(op=='&')
+        if(op=='|')
         {
-            for(int i=0;i<expression.size();i++)
+            for(int i=0;i<temp.size();i++)
             {
-                if(expression[i]=='f')
-                {
-                    return 'f';
-                }
-            }
-            return 't';
-        }
-        else if(op=='|')
-        {
-            for(int i=0;i<expression.size();i++)
-            {
-                if(expression[i]=='t')
+                if(temp[i]=='t')
                 {
                     return 't';
                 }
             }
             return 'f';
         }
-        return expression.back()=='t'?'f':'t';
+        else if(op=='&')
+        {
+            for(int i=0;i<temp.size();i++)
+            {
+                if(temp[i]=='f')
+                {
+                    return 'f';
+                }
+            }
+            return 't';
+        }
+        return temp.back()=='t'?'f':'t';
     }
     bool parseBoolExpr(string expression) {
         stack<char>st;
@@ -32,26 +32,26 @@ public:
         {
             if(expression[i]==',')
             {
-                continue;
+                 continue;
             }
-            if(expression[i]==')')
+            else if(expression[i]==')')
             {
-                string expression;
-                while(  st.top()!='(')
+                string temp;
+                while(!st.empty() && st.top()!='(')
                 {
-                    expression.push_back(st.top());
+                    temp.push_back(st.top());
                     st.pop();
                 }
                 st.pop();
                 char op=st.top();
                 st.pop();
-                st.push(find(op,expression));
+                st.push(calculate(temp,op));
             }
             else
             {
                 st.push(expression[i]);
             }
         }
-        return st.top()=='t';
+         return st.top()=='t';
     }
 };
