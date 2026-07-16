@@ -1,14 +1,14 @@
 class Solution {
 public:
-    bool isPossible(int mid,vector<int>&nums,int k)
+    bool isPossible(int target,vector<int>&nums,int k)
     {
-        int i=0,house=0;
+        int house=0,i=0;
         while(i<nums.size())
         {
-            if(nums[i]<=mid)
+            if(nums[i]<=target)
             {
-               house++;
-               i+=2;
+                house++;
+                i+=2;
             }
             else
             {
