@@ -1,27 +1,34 @@
 class Solution {
 public:
-    int find(int node,vector<int>&parent)
+
+       int find(int x,vector<int>&parent)
     {
-        if(node==parent[node])
+        if(x==parent[x])
         {
-            return node;
+            return x;
         }
-        return parent[node]=find(parent[node],parent);
+        return parent[x]=find(parent[x],parent);
     }
     void Union(int x,int y,vector<int>&parent,vector<int>&rank)
     {
-        if(rank[x]==rank[y])
+        int x_parent=find(x,parent);
+        int y_parent=find(y,parent);
+        if(x==y)
         {
-            parent[x]=y;
-            rank[y]++;
+            return;
         }
-        else if(rank[x]>rank[y])
+        if(rank[x_parent]>rank[y_parent])
         {
-            parent[y]=x;
+            parent[y_parent]=x_parent;
         }
-        else 
+        else if(rank[x_parent]<rank[y_parent])
         {
-            parent[x]=y;
+            parent[x_parent]=y_parent;
+        }
+        else
+        {
+            parent[y_parent]=x_parent;
+            rank[x_parent]++;
         }
     }
     long long countPairs(int n, vector<vector<int>>& edges) {
@@ -33,29 +40,24 @@ public:
         }
         for(int i=0;i<edges.size();i++)
         {
-            int u=edges[i][0];
-            int v=edges[i][1];
-            int x=find(u,parent);
-            int y=find(v,parent);
-            if(x==y)
-            {
-                continue;
-            }
+            int x=find(edges[i][0],parent);
+            int y=find(edges[i][1],parent);
             Union(x,y,parent,rank);
         }
         unordered_map<int,int>mp;
         for(int i=0;i<n;i++)
         {
-            mp[find(i,parent)]++;
+            int p=find(i,parent);
+            mp[p]++;
         }
-        long long result=0;
-        int neighbour=n;
+        int neigh=n;
+        long long res=0;
         for(auto it=mp.begin();it!=mp.end();it++)
         {
             int size=it->second;
-            result=result+(long long)(neighbour-size)*size;
-            neighbour=neighbour-size;
+            res=res+(long long)(neigh-size)*size;
+            neigh=neigh-size;
         }
-        return result;
+        return res;
     }
 };
