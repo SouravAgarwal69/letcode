@@ -1,43 +1,43 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<int>Time(n+1,INT_MAX);
         vector<pair<int,int>>adj[n+1];
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
-        Time[k]=0;
-        pq.push({0,k});
         for(int i=0;i<times.size();i++)
         {
             int u=times[i][0];
             int v=times[i][1];
             int w=times[i][2];
-            adj[u].push_back({w,v});
+            adj[u].push_back({v,w});
         }
-        while(!pq.empty())
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>q;
+        q.push({0,k});
+        vector<int>result(n+1,INT_MAX);
+        result[k]=0;
+        while(!q.empty())
         {
-            int node=pq.top().second;
-            int dist=pq.top().first;
-            pq.pop();
+            int node=q.top().second;
+            int time=q.top().first;
+            q.pop();
+            if(result[node]<time)
+            {
+                continue;
+            }
             for(int i=0;i<adj[node].size();i++)
             {
-                int wt=adj[node][i].first;
-                int neigh=adj[node][i].second;
-                if(dist+wt<Time[neigh])
+                int neigh=adj[node][i].first;
+                int wt=adj[node][i].second;
+                if(wt+time<result[neigh])
                 {
-                    Time[neigh]=dist+wt;
-                    pq.push({wt+dist,neigh});
+                    result[neigh]=wt+time;
+                    q.push({wt+time,neigh});
                 }
             }
         }
-        int result=0;
-        for(int i=1;i<n+1;i++)
+        int maxDelay=INT_MIN;
+        for(int i=1;i<result.size();i++)
         {
-           if(Time[i]==INT_MAX)
-           {
-              return -1;
-           }
-           result=max(result,Time[i]);
+            maxDelay=max(maxDelay,result[i]);
         }
-        return result==INT_MAX?-1:result;
+        return maxDelay==INT_MAX?-1:maxDelay;
     }
 };
