@@ -1,43 +1,41 @@
 class Solution {
 public:
-    bool valid(int r,int c,int n)
+    bool check(int r,int c,int n)
     {
         return r>=0 && r<n && c>=0 && c<n;
     }
     int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        int row[8]={-1,1,-1,1,-1,1,0,0};
+        int col[8]={0,0,-1,1,1,-1,1,-1};
         int n=grid.size();
-        vector<pair<int,int>>directions{{0,1},{0,-1},{1,0},{-1,0},{1,1},{1,-1},{-1,1},{-1,-1}};
         queue<pair<int,int>>q;
-        q.push({0,0});
-        if(grid[n-1][n-1]==1 || grid[0][0]==1)
+        if(grid[0][0]==0)
         {
-            return -1;
+        q.push({0,0});
         }
-        int level=1;
+        int level=0;
         while(!q.empty())
         {
             int size=q.size();
             while(size>0)
             {
-              pair<int,int>pq=q.front();
-              q.pop();
-              int row=pq.first;
-              int col=pq.second;
-              if(row==n-1 && col==n-1)
-              {
-                   return level;
-              }
-              for(int i=0;i<directions.size();i++)
-              {
-                    int r=row+directions[i].first;
-                    int c=col+directions[i].second;
-                  if(valid(r,c,n) && grid[r][c]==0)
-                  {
-                      grid[r][c]=1;
-                      q.push({r,c});
-                  }
-              }
-              size--;
+                int r=q.front().first;
+            int c=q.front().second;
+            q.pop();
+            if(r==n-1 && c==n-1)
+            {
+                return level+1;
+            }
+            for(int i=0;i<8;i++)
+            {
+                if(  check(r+row[i],c+col[i],n) && grid[r+row[i]][c+col[i]]==0)
+                {
+                    
+                        q.push({r+row[i],c+col[i]});
+                        grid[r+row[i]][c+col[i]]=1;
+                }
+            }
+            size--;
             }
             level++;
         }
