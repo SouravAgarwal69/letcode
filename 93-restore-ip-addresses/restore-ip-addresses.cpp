@@ -1,13 +1,12 @@
 class Solution {
 public:
-    bool valid(string segment)
+    bool valid (string segment)
     {
-        int val=stoi(segment);
         if(segment.size()>1 && segment[0]=='0')
         {
-            return false;
+             return false;
         }
-        return val<=255;
+        return stoi(segment)<=255;
     }
     void fun(string &s,vector<string>&result,string temp,int index,int parts)
     {
@@ -23,7 +22,7 @@ public:
             {
                 break;
             }
-            string segment=s.substr(index,len);
+           string segment=s.substr(index,len);
             if(valid(segment))
             {
                 fun(s,result,temp+segment+".",index+len,parts+1);
