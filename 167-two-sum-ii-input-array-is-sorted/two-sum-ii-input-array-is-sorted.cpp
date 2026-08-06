@@ -8,15 +8,15 @@ public:
             {
                 return {s+1,e+1};
             }
-            else if(numbers[s]+numbers[e]>target)
-            {
-                e--;
-            }
-            else
+            else if(numbers[s]+numbers[e]<target)
             {
                 s++;
             }
+            else
+            {
+                e--;
+            }
         }
-        return{};
+        return {-1,-1};
     }
 };
