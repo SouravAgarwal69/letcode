@@ -21,7 +21,7 @@ public:
                 {
                     result.push_back(matrix[bottom][i]);
                 }
-                bottom--;
+                 bottom--;
             }
             if(left<=right)
             {
