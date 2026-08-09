@@ -14,11 +14,11 @@ public:
         {
         for(int i=n-1;i>swapIndex;i--)
         {
-              if(nums[i]>nums[swapIndex])
-              {
-                  swap(nums[i],nums[swapIndex]);
-                  break;
-              }
+            if(nums[i]>nums[swapIndex])
+            {
+                swap(nums[i],nums[swapIndex]);
+                break;
+            }
         }
         }
         reverse(nums.begin()+swapIndex+1,nums.end());
