@@ -6,6 +6,7 @@ public:
             return {};
         }
         vector<int>result;
+        sort(changed.begin(),changed.end());
         map<int,int>mp;
         for(int i=0;i<changed.size();i++)
         {
