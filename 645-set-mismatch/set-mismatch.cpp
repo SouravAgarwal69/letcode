@@ -1,23 +1,21 @@
 class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
-        int missing=-1,duplicate=-1;
+        unordered_map<int,int>mp;
         for(int i=0;i<nums.size();i++)
         {
-            if(nums[abs(nums[i])-1]<0)
-            {
-                duplicate=abs(nums[i]);
-            }
-            else
-            {
-                nums[abs(nums[i])-1]*=-1;
-            }
+            mp[nums[i]]++;
         }
-        for(int i=0;i<nums.size();i++)
+        int duplicate=-1,missing=-1;
+        for(int i=1;i<=nums.size();i++)
         {
-            if(nums[i]>0)
+            if(mp[i]==2)
             {
-                missing=i+1;
+               duplicate=i;
+            }
+            if(mp[i]==0)
+            {
+                missing =i;
             }
         }
         return {duplicate,missing};
