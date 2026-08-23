@@ -11,31 +11,22 @@
  */
 class Solution {
 public:
+   void find(TreeNode*root,vector<int>&result,int level)
+   {
+       if(!root)
+       {
+           return;
+       }
+        if(result.size()<level)
+        {
+            result.push_back(root->val);
+        }
+       find(root->right,result,level+1);
+       find(root->left,result,level+1);
+   }
     vector<int> rightSideView(TreeNode* root) {
         vector<int>result;
-        queue<TreeNode*>q;
-        if(root)
-        {
-           q.push(root);
-        }
-        while(!q.empty())
-        {
-            int size=q.size();
-            result.push_back(q.back()->val);
-            while(size--)
-            {
-                TreeNode* temp=q.front();
-                q.pop();
-                if(temp->left)
-                {
-                    q.push(temp->left);
-                }
-                if(temp->right)
-                {
-                    q.push(temp->right);
-                }
-            }
-        }
+        find(root,result,1);
         return result;
     }
 };
