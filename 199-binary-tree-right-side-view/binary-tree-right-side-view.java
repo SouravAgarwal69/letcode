@@ -14,32 +14,22 @@
  * }
  */
 class Solution {
+    public static void find(TreeNode root,List<Integer>result,int level)
+    {
+        if(root==null)
+        {
+            return;
+        }
+        if(result.size()<level)
+        {
+            result.add(root.val);
+        }
+       find(root.right,result,level+1);
+       find(root.left,result,level+1);
+    }
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer>result=new ArrayList<>();
-        Deque<TreeNode>dq=new ArrayDeque<>();
-        if(root!=null)
-        {
-            dq.offer(root);
-        }
-        while(!dq.isEmpty())
-        {
-            int size=dq.size();
-            result.add(dq.peekLast().val);
-            while(size>0)
-            {
-                TreeNode temp=dq.peekFirst();
-                dq.pollFirst();
-                if(temp.left!=null)
-                {
-                    dq.offer(temp.left);
-                }
-                if(temp.right!=null)
-                {
-                    dq.offer(temp.right);
-                }
-                size--;
-            }
-        }
+        find(root,result,1);
         return result;
     }
 }
