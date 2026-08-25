@@ -14,31 +14,28 @@
  * }
  */
 class Solution {
+    public static int find(TreeNode root)
+    {
+        if(root==null)
+        {
+            return 0;
+        }
+        return 1+find(root.left)+find(root.right);
+    }
+    public static boolean check(TreeNode root,int i,int totalNode)
+    {
+        if(root==null)
+        {
+            return true;
+        }
+        if(i>totalNode)
+        {
+            return false;
+        }
+        return check(root.left,2*i,totalNode) && check(root.right,2*i+1,totalNode);
+    }
     public boolean isCompleteTree(TreeNode root) {
-        boolean nullVisited=false;
-        Queue<TreeNode>q=new LinkedList<>();
-        if(root!=null)
-        {
-            q.offer(root);
-        }
-        while(!q.isEmpty())
-        {
-            TreeNode node=q.peek();
-            q.poll();
-            if(node==null)
-            {
-                nullVisited=true;
-            }
-            else
-            {
-               if(nullVisited)
-               {
-                  return false;
-               }
-               q.offer(node.left);
-               q.offer(node.right);
-            }
-        }
-          return true;
+        int totalNode=find(root);
+        return check(root,1,totalNode);
     }
 }
