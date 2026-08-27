@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-    TreeNode* find(TreeNode* root,unordered_set<int>st,vector<TreeNode*>&result)
+    TreeNode* find(TreeNode*root,unordered_set<int>&st,vector<TreeNode*>&result)
     {
         if(!root)
         {
@@ -31,10 +31,7 @@ public:
             }
             return NULL;
         }
-        else
-        {
-            return root;
-        }
+        return root;
     }
     vector<TreeNode*> delNodes(TreeNode* root, vector<int>& to_delete) {
         vector<TreeNode*>result;
@@ -43,8 +40,8 @@ public:
         {
             st.insert(to_delete[i]);
         }
-        find(root,st,result);
-        if(st.find(root->val)==st.end())
+       root= find(root,st,result);
+        if(root)
         {
             result.push_back(root);
         }
