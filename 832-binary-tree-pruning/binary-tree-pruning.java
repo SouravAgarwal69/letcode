@@ -14,39 +14,13 @@
  * }
  */
 class Solution {
-    public boolean check(TreeNode root)
-    {
-        if(root==null)
-        {
-            return false;
-        }
-        if(root.val==1)
-        {
-            return true;
-        }
-        return check(root.left) || check(root.right);
-    }
     public TreeNode pruneTree(TreeNode root) {
         if(root==null)
         {
             return null;
         }
-        if(!check(root.left))
-        {
-            root.left=null;
-        }
-        else
-        {
-           root.left=pruneTree(root.left);
-        }
-        if(!check(root.right))
-        {
-            root.right=null;
-        }
-       else
-       {
+        root.left=pruneTree(root.left);
         root.right=pruneTree(root.right);
-       }
          if(root.left==null && root.right==null && root.val==0)
         {
             return null;
