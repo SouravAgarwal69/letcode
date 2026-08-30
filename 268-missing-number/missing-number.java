@@ -1,18 +1,15 @@
 class Solution {
     public int missingNumber(int[] nums) {
-        HashSet<Integer>set=new HashSet<>();
+        Arrays.sort(nums);
+        int index=1,result=nums.length;
         for(int i=0;i<nums.length;i++)
         {
-            set.add(nums[i]);
-        }
-        int result=0;
-        for(int i=0;i<=nums.length;i++)
-        {
-            if(!set.contains(i))
+            if(i!=nums[index-1])
             {
-                result=i;
-                break;
+                  result=i;
+                  break;
             }
+            index++;
         }
         return result;
     }
