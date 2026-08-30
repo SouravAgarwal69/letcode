@@ -3,8 +3,8 @@ class Solution {
         int result=nums.length;
         for(int i=0;i<nums.length;i++)
         {
-            result=result^i;
-            result=result^nums[i];
+            result=result^i^nums[i];
+          
         }
         return result;
     }
