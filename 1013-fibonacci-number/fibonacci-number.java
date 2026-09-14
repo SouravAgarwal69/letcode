@@ -4,13 +4,13 @@ class Solution {
         {
             return n;
         }
-       int result[]=new int [n+1];
-       result[0]=0;
-       result[1]=1;
-       for(int i=2;i<=n;i++)
-       {
-          result[i]=result[i-1]+result[i-2];
-       } 
-       return result[n];
+        int f0=0,f1=1,result=0;
+        for(int i=2;i<=n;i++)
+        {
+            result=f0+f1;
+            f0=f1;
+            f1=result;
+        }
+        return result;
     }
 }
