@@ -1,43 +1,45 @@
 class Solution {
 public:
-    bool bfs(vector<int>&indegree,vector<int>adj[])
+    bool dfs(int node,vector<int>adj[],vector<bool>&visited,vector<bool>&path)
     {
-        queue<int>q;
-        int cnt=0;
-        for(int i=0;i<indegree.size();i++)
+        if(visited[node])
         {
-              if(indegree[i]==0)
-              {
-                 q.push(i);
-                 cnt++;
-              }
+           if(path[node])
+           {
+              return true;
+           }
         }
-        while(!q.empty())
+        else
         {
-            int node=q.front();
-            q.pop();
-            for(int i=0;i<adj[node].size();i++)
-            {
-                indegree[adj[node][i]]--;
-                if(indegree[adj[node][i]]==0)
-                {
-                    q.push(adj[node][i]);
-                    cnt++;
-                }
-            }
+             visited[node]=true;
+             path[node]=true;
+             for(int i=0;i<adj[node].size();i++)
+             {
+                 if(dfs(adj[node][i],adj,visited,path))
+                 {
+                    return true;
+                 }
+             }
         }
-        return cnt==indegree.size();
+        path[node]=false;
+        return false;
     }
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
-        vector<int>indegree(numCourses);
-        vector<int>adj[numCourses];
+        int n=numCourses;
+        vector<int>adj[n];
         for(int i=0;i<prerequisites.size();i++)
         {
-            int u=prerequisites[i][0];
-            int v=prerequisites[i][1];
-            adj[u].push_back(v);
-            indegree[v]++;
+            adj[prerequisites[i][1]].push_back(prerequisites[i][0]);
         }
-        return bfs(indegree,adj);
+        vector<bool>visited(n);
+        vector<bool>path(n);
+        for(int i=0;i<n;i++)
+        {
+             if(!visited[i] && dfs(i,adj,visited,path))
+             {
+                return false;
+             }
+        }
+        return true;
     }
 };
