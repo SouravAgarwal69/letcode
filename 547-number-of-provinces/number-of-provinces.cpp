@@ -1,20 +1,13 @@
 class Solution {
 public:
-    void bfs(vector<int>adj[],vector<bool>&visited,int node)
+    void dfs(vector<int>adj[],vector<bool>&visited,int node)
     {
-        queue<int>q;
-        q.push(node);
-        while(!q.empty())
+        visited[node]=true;
+        for(int i=0;i<adj[node].size();i++)
         {
-            int node=q.front();
-            q.pop();
-            for(int i=0;i<adj[node].size();i++)
+            if(!visited[adj[node][i]])
             {
-                if(!visited[adj[node][i]])
-                {
-                    visited[adj[node][i]]=true;
-                    q.push(adj[node][i]);
-                }
+                dfs(adj,visited,adj[node][i]);
             }
         }
     }
@@ -38,7 +31,7 @@ public:
             if(!visited[i])
             {
                 cnt++;
-                bfs(adj,visited,i);
+                dfs(adj,visited,i);
             }
         }
         return cnt;
