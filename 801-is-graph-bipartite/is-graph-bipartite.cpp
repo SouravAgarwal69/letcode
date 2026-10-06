@@ -1,24 +1,28 @@
 class Solution {
 public:
-   bool dfs(vector<int>adj[],int node,vector<int>&color)
-   {
-       for(int i=0;i<adj[node].size();i++)
-       {
-           if(color[adj[node][i]]==-1)
-           {
-              color[adj[node][i]]=1-color[node];
-              if(dfs(adj,adj[node][i],color))
-              {
-                 return true;
-              }
-           }
-           else if(color[adj[node][i]]==color[node])
-           {
-               return true;
-           }
-       }
-       return false;
-   }
+    bool bfs(vector<int>adj[],int value,vector<int>&color)
+    {
+         queue<int>q;
+         q.push(value);
+         while(!q.empty())
+         {
+            int node=q.front();
+            q.pop();
+            for(int i=0;i<adj[node].size();i++)
+            {
+                if(color[adj[node][i]]==-1)
+                {
+                    color[adj[node][i]]=1-color[node];
+                    q.push(adj[node][i]);
+                }
+                else if(color[adj[node][i]]==color[node])
+                {
+                    return true;
+                }
+            }
+         }
+         return false;
+    }
     bool isBipartite(vector<vector<int>>& graph) {
         int n=graph.size();
         vector<int>adj[n];
@@ -35,7 +39,7 @@ public:
             if(color[i]==-1)
             {
                 color[i]=0;
-                if(dfs(adj,i,color))
+                if(bfs(adj,i,color))
                 {
                     return false;
                 }
